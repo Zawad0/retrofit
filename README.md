@@ -128,7 +128,7 @@ retrofit/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/<your-username>/retrofit.git
+git clone https://github.com/Zawad0/retrofit.git
 cd retrofit
 ```
 
