@@ -17,7 +17,22 @@ import sareeCategory from './assets/women-categories/saree.jpg'
 import salwarKameezCategory from './assets/women-categories/salwar-kameez.jpg'
 import kurtiCategory from './assets/women-categories/kurti.jpg'
 import nightwearCategory from './assets/women-categories/nightwear.jpg'
+import katan4 from './assets/products/sarees/katan-4.jpg'
+import katan3 from './assets/products/sarees/katan-3.jpg'
+import katan5 from './assets/products/sarees/katan-5.jpg'
+import katanGreen from './assets/products/sarees/katan-green.jpg'
+import katanMaroon from './assets/products/sarees/katan-maroon.jpg'
+import monipuriBlack from './assets/products/sarees/monipuri-black.jpg'
+import monipuriPurple from './assets/products/sarees/monipuri-purple.jpg'
+import monipuriBlue from './assets/products/sarees/monipuri-blue.jpg'
+import monipuriYellow from './assets/products/sarees/monipuri-yellow.jpg'
+import monipuriYellowBorder from './assets/products/sarees/monipuri-yellow-border.jpg'
+import cottonPurple from './assets/products/sarees/cotton-purple.jpg'
+import cottonMauve from './assets/products/sarees/cotton-mauve.jpg'
+import cottonGreen from './assets/products/sarees/cotton-green.jpg'
+import cottonSilkOlive from './assets/products/sarees/cotton-silk-olive.jpg'
 import './App.css'
+import './product-modal.css'
 
 const slides = [
   { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for<br /><em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
@@ -41,7 +56,20 @@ const products = [
   { name: 'Women’s Scarf', brand: 'Deshal', price: '750', size: 'Free size', group: 'Women', style: 'Western', image: womanScarf },
   { name: 'Floral Frock', brand: 'Forever 21', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Denim Jumpsuit', brand: 'Bershka', price: '1,450', size: 'M', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Handloom Cotton Saree', brand: 'Taan', price: '1,800', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Rose Gold Katan Saree', brand: 'Katan', price: '1,200', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 2 days', condition: 'Like New', image: katan4 },
+  { name: 'Black & Red Katan Saree', brand: 'Katan', price: '1,150', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 4 days', condition: 'Like New', image: katan3 },
+  { name: 'Fuchsia Floral Katan Saree', brand: 'Katan', price: '1,200', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 1 day', condition: 'Like New', image: katan5 },
+  { name: 'Emerald Green Katan Saree', brand: 'Katan', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 3 days', condition: 'Good', image: katanGreen },
+  { name: 'Wine Red Katan Saree', brand: 'Katan', price: '1,200', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 2 days', condition: 'Like New', image: katanMaroon },
+  { name: 'Black Monipuri Saree', brand: 'Monipuri', price: '850', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 5 days', condition: 'Good', image: monipuriBlack },
+  { name: 'Lavender Monipuri Saree', brand: 'Monipuri', price: '800', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 2 days', condition: 'Like New', image: monipuriPurple },
+  { name: 'Blue & White Monipuri Saree', brand: 'Monipuri', price: '900', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 4 days', condition: 'Good', image: monipuriBlue },
+  { name: 'Sunshine Yellow Monipuri Saree', brand: 'Monipuri', price: '950', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 1 day', condition: 'Like New', image: monipuriYellow },
+  { name: 'Yellow Border Monipuri Saree', brand: 'Monipuri', price: '750', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 6 days', condition: 'Good', image: monipuriYellowBorder },
+  { name: 'Purple Embellished Cotton Saree', brand: 'Cotton', price: '1,050', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Soft cotton', usedFor: 'Used for 2 days', condition: 'Like New', image: cottonPurple },
+  { name: 'Mauve Cotton Saree', brand: 'Cotton', price: '700', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 5 days', condition: 'Good', image: cottonMauve },
+  { name: 'Olive Green Cotton Saree', brand: 'Cotton', price: '850', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 3 days', condition: 'Like New', image: cottonGreen },
+  { name: 'Olive Cotton Silk Saree', brand: 'Cotton Silk', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Cotton silk blend', usedFor: 'Used for 2 days', condition: 'Like New', image: cottonSilkOlive },
   { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
@@ -61,8 +89,8 @@ const products = [
   { name: 'Newborn Baby Jumpsuit', brand: 'Baby Shop', price: '750', size: '0–6 M', group: 'Kids', style: 'Western', image: newbornBabyJumpsuit },
 ]
 
-function ProductCard({ product, showPrice = true }) {
-  return <article className="product-card"><div className="product-image"><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div></article>
+function ProductCard({ product, showPrice = true, onViewProduct }) {
+  return <article className="product-card"><div className="product-image"><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div>{product.type === 'Saree' && <button className="view-product-button" onClick={() => onViewProduct(product)}>View product <span>→</span></button>}</article>
 }
 
 function App() {
@@ -73,6 +101,8 @@ function App() {
   const [womenCategoryPage, setWomenCategoryPage] = useState(false)
   const [slide, setSlide] = useState(0)
   const [signInOpen, setSignInOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [imageZoomed, setImageZoomed] = useState(false)
   const activeSlide = slides[slide]
   const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear →' : `View ${activeSlide.group.toLowerCase()}’s wear →`
   const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (collectionStyle !== 'Traditional' || !traditionalType || product.type === traditionalType))
@@ -106,7 +136,7 @@ function App() {
       {page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
         <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button>}</div>
         {page !== 'Home' && <><div className="collection-tabs">{(page === 'Women' ? ['Traditional', 'Western'] : ['All clothing', 'Traditional', 'Western']).map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => { setCollectionStyle(style); setTraditionalType('') }}>{style}</button>)}</div>{page === 'Women' && collectionStyle === 'Traditional' && <div className="subcategory-tabs" aria-label="Traditional clothing types">{['Saree', 'Salwar Kameez', 'Kurti'].map((type) => <button key={type} className={traditionalType === type ? 'active' : ''} onClick={() => setTraditionalType((current) => current === type ? '' : type)}>{type}</button>)}</div>}</>}
-        <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} />)}</div>
+        <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div>
       </section>}
 
       <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button">Start selling <span>→</span></button></section>
@@ -116,6 +146,7 @@ function App() {
 
     <footer id="how-it-works"><div className="footer-main"><div className="footer-brand"><button className="logo" onClick={() => goToPage('Home')}><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p>Fashion with a future.</p></div><div className="footer-contact"><p>CONTACT</p><a href="mailto:retrofit@gmail.com">retrofit@gmail.com</a><a href="tel:+8801700000000">+880 1700-000000</a></div><div className="footer-follow"><p>FOLLOW US</p><div className="social-links" aria-label="Follow RetroFit"><a className="facebook" href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5H17V3.7c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.1H7.8V13h2.7v8h3.3Z" /></svg></a><a className="instagram" href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.7" r="1" /></svg></a><a className="tiktok" href="https://www.tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.3 2.3 1.6 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.4v6.6a5.3 5.3 0 1 1-4.6-5.2v3.1a2.3 2.3 0 1 0 1.5 2.1V3H15Z" /></svg></a></div></div></div><div className="footer-bottom"><p>© 2026 RetroFit. All rights reserved.</p></div></footer>
     {signInOpen && <div className="signin-overlay" role="presentation" onClick={() => setSignInOpen(false)}><section className="signin-dialog" role="dialog" aria-modal="true" aria-labelledby="signin-title" onClick={(event) => event.stopPropagation()}><button className="close-signin" onClick={() => setSignInOpen(false)} aria-label="Close sign in">×</button><p className="eyebrow">WELCOME BACK</p><h2 id="signin-title">Sign in to RetroFit</h2><p>Access your saved styles and keep fashion in circulation.</p><form onSubmit={(event) => event.preventDefault()}><label htmlFor="email">Email address</label><input id="email" type="email" placeholder="you@example.com" required /><label htmlFor="password">Password</label><input id="password" type="password" placeholder="Enter your password" required /><button className="primary-button" type="submit">Sign in <span>→</span></button></form><button className="create-account" type="button">New here? Create an account</button></section></div>}
+    {selectedProduct && <div className="product-modal-overlay" role="presentation" onClick={() => setSelectedProduct(null)}><section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-title" onClick={(event) => event.stopPropagation()}><button className="close-product-modal" onClick={() => setSelectedProduct(null)} aria-label="Close product details">×</button><div className="product-modal-image"><img className={imageZoomed ? 'zoomed' : ''} src={selectedProduct.image} alt={selectedProduct.name} onClick={() => setImageZoomed((zoomed) => !zoomed)} /><button className="image-zoom-button" onClick={() => setImageZoomed((zoomed) => !zoomed)}>{imageZoomed ? 'Zoom out' : 'Click image to zoom'}</button></div><div className="product-modal-details"><p className="eyebrow">WOMEN · SAREE</p><h2 id="product-title">{selectedProduct.name}</h2><p className="product-modal-price">৳ {selectedProduct.price}</p><dl><div><dt>Material</dt><dd>{selectedProduct.material || 'Not specified'}</dd></div><div><dt>Used for</dt><dd>{selectedProduct.usedFor || 'Not specified'}</dd></div><div><dt>Condition</dt><dd>{selectedProduct.condition || 'Good'}</dd></div><div><dt>Size</dt><dd>{selectedProduct.size}</dd></div></dl><button className="primary-button">Add to cart <span>→</span></button></div></section></div>}
   </>
 }
 
