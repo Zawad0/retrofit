@@ -16,9 +16,9 @@ import newbornBabyJumpsuit from './assets/products/newborn-baby-jumpsuit.jpg'
 import './App.css'
 
 const slides = [
-  { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for <em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
-  { group: 'Kids', eyebrow: 'KIDS’ COLLECTION', title: <>Little looks, <em>big smiles.</em></>, text: 'Find comfortable, colourful clothes for every little adventure.', image: kidsPicture },
-  { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for <em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1800&q=95' },
+  { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for<br /><em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
+  { group: 'Kids', eyebrow: 'KIDS’ COLLECTION', title: <>Little looks,<br /><em>big smiles.</em></>, text: 'Find comfortable, colourful clothes for every little adventure.', image: kidsPicture },
+  { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for<br /><em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1800&q=95' },
 ]
 
 const products = [
