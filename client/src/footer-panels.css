@@ -1,0 +1,9 @@
+.footer-panels {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 700px) {
+  .footer-panels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
