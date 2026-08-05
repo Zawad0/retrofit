@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import retrofitLogo from './assets/retrofit-logo.svg'
 import womanTshirt from './assets/products/womantshirt.jpg'
 import womanTop from './assets/products/womantop.jpg'
 import womanJeans from './assets/products/womanjeans.jpg'
 import womanScarf from './assets/products/womenscaff.jpg'
+import kidsPicture from './assets/products/kid.jpg'
+import menSuit from './assets/products/men-suit.jpg'
+import menShirt from './assets/products/men-shirt.jpg'
+import menTshirt from './assets/products/men-tshirt.jpg'
+import menPunjabi from './assets/products/men-punjabi.jpg'
+import babyBathSuit from './assets/products/baby-bath-suit.jpg'
+import cottonCoOrdSet from './assets/products/cotton-co-ord-set.jpg'
+import smockedBabyDress from './assets/products/smocked-baby-dress.jpg'
+import newbornBabyJumpsuit from './assets/products/newborn-baby-jumpsuit.jpg'
 import './App.css'
 
 const slides = [
-  { eyebrow: 'PRE-LOVED. RE-IMAGINED.', title: <>Good style deserves a <em>second life.</em></>, text: 'Discover quality traditional and western clothing with a story worth wearing.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
-  { eyebrow: 'TRADITIONAL COLLECTION', title: <>Culture meets <em>your style.</em></>, text: 'Find beautiful sarees, panjabis, kurtis and more—ready for their next celebration.', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1800&q=95' },
-  { eyebrow: 'WESTERN COLLECTION', title: <>Wear it again. <em>Love it more.</em></>, text: 'Your next favourite denim, jacket, dress or everyday essential is waiting here.', image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=95' },
+  { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for <em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
+  { group: 'Kids', eyebrow: 'KIDS’ COLLECTION', title: <>Little looks, <em>big smiles.</em></>, text: 'Find comfortable, colourful clothes for every little adventure.', image: kidsPicture },
+  { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for <em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1800&q=95' },
 ]
 
 const products = [
@@ -23,15 +32,17 @@ const products = [
   { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Cotton Panjabi', brand: 'Aarong', price: '1,050', size: 'L', group: 'Men', style: 'Traditional', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Classic Payjama', brand: 'Yellow', price: '700', size: 'L', group: 'Men', style: 'Traditional', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Polo T-Shirt', brand: 'Nike', price: '850', size: 'M', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1625910513413-5fc85fbc4e16?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Oxford Shirt', brand: 'Ralph Lauren', price: '1,100', size: 'L', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Classic Men’s Suit', brand: 'Zara', price: '2,400', size: 'L', group: 'Men', style: 'Western', image: menSuit },
+  { name: 'Classic Shirt', brand: 'Ralph Lauren', price: '1,100', size: 'L', group: 'Men', style: 'Western', image: menShirt },
+  { name: 'Limited T-Shirt', brand: 'Nike', price: '850', size: 'M', group: 'Men', style: 'Western', image: menTshirt },
+  { name: 'Embroidered Panjabi', brand: 'Aarong', price: '1,250', size: 'L', group: 'Men', style: 'Traditional', image: menPunjabi },
   { name: 'Sports Jersey', brand: 'Adidas', price: '900', size: 'M', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Straight Fit Jeans', brand: 'Levi\'s', price: '1,250', size: '32', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cotton Trousers', brand: 'M&S', price: '1,000', size: '34', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Kids Denim Shirt', brand: 'Mothercare', price: '650', size: '8–9 Y', group: 'Kids', style: 'Western', image: 'https://images.unsplash.com/photo-1519238361156-2b2e6f8e4a8c?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Kids Festive Panjabi', brand: 'Yellow', price: '720', size: '6–7 Y', group: 'Kids', style: 'Traditional', image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Cherry Baby Bath Suit', brand: 'Mothercare', price: '650', size: '6–12 M', group: 'Kids', style: 'Western', image: babyBathSuit },
+  { name: 'Cotton Co-ord Set', brand: 'Yellow', price: '720', size: '1–2 Y', group: 'Kids', style: 'Western', image: cottonCoOrdSet },
+  { name: 'Smocked Puff Sleeve Dress', brand: 'Mothercare', price: '820', size: '1–2 Y', group: 'Kids', style: 'Western', image: smockedBabyDress },
+  { name: 'Newborn Baby Jumpsuit', brand: 'Baby Shop', price: '750', size: '0–6 M', group: 'Kids', style: 'Western', image: newbornBabyJumpsuit },
 ]
 
 function ProductCard({ product }) {
@@ -44,10 +55,18 @@ function App() {
   const [slide, setSlide] = useState(0)
   const [signInOpen, setSignInOpen] = useState(false)
   const activeSlide = slides[slide]
-  const shownProducts = page === 'Home' ? products.slice(0, 4) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle))
+  const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear →' : `View ${activeSlide.group.toLowerCase()}’s wear →`
+  const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle))
+  const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
 
   const goToPage = (newPage) => { setPage(newPage); setCollectionStyle('All clothing'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const changeSlide = (direction) => setSlide((current) => (current + direction + slides.length) % slides.length)
+
+  useEffect(() => {
+    if (page !== 'Home') return undefined
+    const timer = window.setInterval(() => setSlide((current) => (current + 1) % slides.length), 2000)
+    return () => window.clearInterval(timer)
+  }, [page])
 
   return <>
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
@@ -65,7 +84,7 @@ function App() {
       <section className="values"><p><span>✦</span> Quality checked</p><p><span>✦</span> Traditional & western wear</p><p><span>✦</span> Made for your budget</p></section>
 
       <section className="shop-section" id="collection">
-        <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? 'Fresh finds, ready for you.' : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage('Women')}>View women’s wear →</button>}</div>
+        <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button>}</div>
         {page !== 'Home' && <div className="collection-tabs">{['All clothing', 'Traditional', 'Western'].map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => setCollectionStyle(style)}>{style}</button>)}</div>}
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} />)}</div>
       </section>
