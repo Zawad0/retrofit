@@ -40,13 +40,13 @@ const products = [
   { name: 'Straight Fit Jeans', brand: 'Levi\'s', price: '1,250', size: '32', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cotton Trousers', brand: 'M&S', price: '1,000', size: '34', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cherry Baby Bath Suit', brand: 'Mothercare', price: '650', size: '6–12 M', group: 'Kids', style: 'Western', image: babyBathSuit },
-  { name: 'Cotton Co-ord Set', brand: 'Yellow', price: '720', size: '1–2 Y', group: 'Kids', style: 'Western', image: cottonCoOrdSet },
-  { name: 'Smocked Puff Sleeve Dress', brand: 'Mothercare', price: '820', size: '1–2 Y', group: 'Kids', style: 'Western', image: smockedBabyDress },
+  { name: 'Cotton Co-ord Set', brand: 'Yellow', price: '720', size: '1–2 Y', group: 'Kids', style: 'Western', image: cottonCoOrdSet, imageFit: 'contain' },
+  { name: 'Smocked Puff Sleeve Dress', brand: 'Mothercare', price: '820', size: '1–2 Y', group: 'Kids', style: 'Western', image: smockedBabyDress, imageFit: 'contain' },
   { name: 'Newborn Baby Jumpsuit', brand: 'Baby Shop', price: '750', size: '0–6 M', group: 'Kids', style: 'Western', image: newbornBabyJumpsuit },
 ]
 
-function ProductCard({ product }) {
-  return <article className="product-card"><div className="product-image"><img src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`}>♡</button><span className="style-badge">{product.style}</span></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div><strong>৳ {product.price}</strong></div></article>
+function ProductCard({ product, showPrice = true }) {
+  return <article className="product-card"><div className="product-image"><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div></article>
 }
 
 function App() {
@@ -78,15 +78,15 @@ function App() {
     <main>
       {page === 'Home' && <section className="hero-section">
         <div className="hero-copy"><p className="eyebrow">{activeSlide.eyebrow}</p><h1>{activeSlide.title}</h1><p className="hero-text">{activeSlide.text}</p><div className="hero-actions"><button className="primary-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Shop the edit <span>→</span></button><button className="text-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Explore the collection</button></div><div className="slider-dots">{slides.map((_, index) => <button aria-label={`Show slide ${index + 1}`} className={slide === index ? 'selected' : ''} key={index} onClick={() => setSlide(index)} />)}</div></div>
-        <div className="hero-image-wrap"><div className="slider-window"><div className="slider-track" style={{ transform: `translateX(-${slide * 100}%)` }}>{slides.map((item, index) => <img src={item.image} alt={`RetroFit collection ${index + 1}`} key={item.image} />)}</div></div><button className="hero-arrow previous" onClick={() => changeSlide(-1)} aria-label="Previous slide">‹</button><button className="hero-arrow next" onClick={() => changeSlide(1)} aria-label="Next slide">›</button><div className="hero-note"><strong>4,000+</strong><br />clothes given a new story</div></div>
+        <div className="hero-image-wrap"><div className="slider-window"><div className="slider-track" style={{ transform: `translateX(-${slide * 100}%)` }}>{slides.map((item, index) => <img src={item.image} alt={`RetroFit collection ${index + 1}`} key={item.image} />)}</div></div><button className="hero-arrow previous" onClick={() => changeSlide(-1)} aria-label="Previous slide">‹</button><button className="hero-arrow next" onClick={() => changeSlide(1)} aria-label="Next slide">›</button></div>
       </section>}
 
-      <section className="values"><p><span>✦</span> Quality checked</p><p><span>✦</span> Traditional & western wear</p><p><span>✦</span> Made for your budget</p></section>
+      <section className="values" aria-label="RetroFit promises"><div className="values-track">{['Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet', 'Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet'].map((message, index) => <p key={`${message}-${index}`}>{message}</p>)}</div></section>
 
       <section className="shop-section" id="collection">
         <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button>}</div>
         {page !== 'Home' && <div className="collection-tabs">{['All clothing', 'Traditional', 'Western'].map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => setCollectionStyle(style)}>{style}</button>)}</div>}
-        <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} />)}</div>
+        <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} />)}</div>
       </section>
 
       <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button">Start selling <span>→</span></button></section>
