@@ -23,6 +23,7 @@ function ProductCard({ product }) {
 function App() {
   const [page, setPage] = useState('Home')
   const [slide, setSlide] = useState(0)
+  const [signInOpen, setSignInOpen] = useState(false)
   const activeSlide = slides[slide]
   const shownProducts = page === 'Home' ? products.slice(0, 4) : products.filter((product) => product.group === page)
 
@@ -34,7 +35,7 @@ function App() {
     <header className="navbar">
       <button className="logo" onClick={() => goToPage('Home')}>Retro<span>Fit</span></button>
       <nav>{['Home', 'Men', 'Women', 'Kids'].map((item) => <button className={page === item ? 'active' : ''} key={item} onClick={() => goToPage(item)}>{item}</button>)}<a href="#how-it-works">How it works</a></nav>
-      <button className="login-button">♡ &nbsp; Log in</button>
+      <button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button>
     </header>
 
     <main>
@@ -54,7 +55,8 @@ function App() {
       <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button">Start selling <span>→</span></button></section>
     </main>
 
-    <footer id="how-it-works"><button className="logo" onClick={() => goToPage('Home')}>Retro<span>Fit</span></button><p>Fashion with a future.</p><a href="tel:+8801700000000">+880 1700-000000</a><p>© 2026 RetroFit</p></footer>
+    <footer id="how-it-works"><div className="footer-main"><div className="footer-brand"><button className="logo" onClick={() => goToPage('Home')}>Retro<span>Fit</span></button><p>Fashion with a future.</p></div><div className="footer-contact"><p>CONTACT</p><a href="mailto:retrofit@gmail.com">retrofit@gmail.com</a><a href="tel:+8801700000000">+880 1700-000000</a></div><div className="footer-follow"><p>FOLLOW US</p><div className="social-links" aria-label="Follow RetroFit"><a className="facebook" href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5H17V3.7c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.1H7.8V13h2.7v8h3.3Z" /></svg></a><a className="instagram" href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.7" r="1" /></svg></a><a className="tiktok" href="https://www.tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.3 2.3 1.6 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.4v6.6a5.3 5.3 0 1 1-4.6-5.2v3.1a2.3 2.3 0 1 0 1.5 2.1V3H15Z" /></svg></a></div></div></div><div className="footer-bottom"><p>© 2026 RetroFit. All rights reserved.</p></div></footer>
+    {signInOpen && <div className="signin-overlay" role="presentation" onClick={() => setSignInOpen(false)}><section className="signin-dialog" role="dialog" aria-modal="true" aria-labelledby="signin-title" onClick={(event) => event.stopPropagation()}><button className="close-signin" onClick={() => setSignInOpen(false)} aria-label="Close sign in">×</button><p className="eyebrow">WELCOME BACK</p><h2 id="signin-title">Sign in to RetroFit</h2><p>Access your saved styles and keep fashion in circulation.</p><form onSubmit={(event) => event.preventDefault()}><label htmlFor="email">Email address</label><input id="email" type="email" placeholder="you@example.com" required /><label htmlFor="password">Password</label><input id="password" type="password" placeholder="Enter your password" required /><button className="primary-button" type="submit">Sign in <span>→</span></button></form><button className="create-account" type="button">New here? Create an account</button></section></div>}
   </>
 }
 
