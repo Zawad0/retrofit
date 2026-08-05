@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import retrofitLogo from './assets/retrofit-logo.svg'
+import womanTshirt from './assets/products/womantshirt.jpg'
+import womanTop from './assets/products/womantop.jpg'
+import womanJeans from './assets/products/womanjeans.jpg'
+import womanScarf from './assets/products/womenscaff.jpg'
 import './App.css'
 
 const slides = [
@@ -9,10 +13,23 @@ const slides = [
 ]
 
 const products = [
-  { name: 'Classic Denim Jacket', brand: 'Levi\'s', price: '1,200', size: 'M', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Cotton Panjabi', brand: 'Aarong', price: '1,050', size: 'L', group: 'Men', style: 'Traditional', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Floral Summer Dress', brand: 'Zara', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', image: womanTshirt },
+  { name: 'Women’s Top', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', image: womanTop },
+  { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
+  { name: 'Women’s Scarf', brand: 'Deshal', price: '750', size: 'Free size', group: 'Women', style: 'Western', image: womanScarf },
+  { name: 'Floral Frock', brand: 'Forever 21', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Denim Jumpsuit', brand: 'Bershka', price: '1,450', size: 'M', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Handloom Cotton Saree', brand: 'Taan', price: '1,800', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Cotton Panjabi', brand: 'Aarong', price: '1,050', size: 'L', group: 'Men', style: 'Traditional', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Classic Payjama', brand: 'Yellow', price: '700', size: 'L', group: 'Men', style: 'Traditional', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Polo T-Shirt', brand: 'Nike', price: '850', size: 'M', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1625910513413-5fc85fbc4e16?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Oxford Shirt', brand: 'Ralph Lauren', price: '1,100', size: 'L', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Sports Jersey', brand: 'Adidas', price: '900', size: 'M', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Straight Fit Jeans', brand: 'Levi\'s', price: '1,250', size: '32', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Cotton Trousers', brand: 'M&S', price: '1,000', size: '34', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Kids Denim Shirt', brand: 'Mothercare', price: '650', size: '8–9 Y', group: 'Kids', style: 'Western', image: 'https://images.unsplash.com/photo-1519238361156-2b2e6f8e4a8c?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Kids Festive Panjabi', brand: 'Yellow', price: '720', size: '6–7 Y', group: 'Kids', style: 'Traditional', image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?auto=format&fit=crop&w=1200&q=90' },
 ]
@@ -23,12 +40,13 @@ function ProductCard({ product }) {
 
 function App() {
   const [page, setPage] = useState('Home')
+  const [collectionStyle, setCollectionStyle] = useState('All clothing')
   const [slide, setSlide] = useState(0)
   const [signInOpen, setSignInOpen] = useState(false)
   const activeSlide = slides[slide]
-  const shownProducts = page === 'Home' ? products.slice(0, 4) : products.filter((product) => product.group === page)
+  const shownProducts = page === 'Home' ? products.slice(0, 4) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle))
 
-  const goToPage = (newPage) => { setPage(newPage); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToPage = (newPage) => { setPage(newPage); setCollectionStyle('All clothing'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const changeSlide = (direction) => setSlide((current) => (current + direction + slides.length) % slides.length)
 
   return <>
@@ -48,7 +66,7 @@ function App() {
 
       <section className="shop-section" id="collection">
         <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? 'Fresh finds, ready for you.' : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage('Women')}>View women’s wear →</button>}</div>
-        {page !== 'Home' && <div className="collection-tabs"><button className="active">All clothing</button><button>Traditional</button><button>Western</button></div>}
+        {page !== 'Home' && <div className="collection-tabs">{['All clothing', 'Traditional', 'Western'].map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => setCollectionStyle(style)}>{style}</button>)}</div>}
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} />)}</div>
       </section>
 
