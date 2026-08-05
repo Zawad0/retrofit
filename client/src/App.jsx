@@ -64,7 +64,7 @@ function App() {
 
   useEffect(() => {
     if (page !== 'Home') return undefined
-    const timer = window.setInterval(() => setSlide((current) => (current + 1) % slides.length), 2000)
+    const timer = window.setInterval(() => setSlide((current) => (current + 1) % slides.length), 4000)
     return () => window.clearInterval(timer)
   }, [page])
 
