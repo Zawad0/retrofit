@@ -13,6 +13,10 @@ import babyBathSuit from './assets/products/baby-bath-suit.jpg'
 import cottonCoOrdSet from './assets/products/cotton-co-ord-set.jpg'
 import smockedBabyDress from './assets/products/smocked-baby-dress.jpg'
 import newbornBabyJumpsuit from './assets/products/newborn-baby-jumpsuit.jpg'
+import sareeCategory from './assets/women-categories/saree.jpg'
+import salwarKameezCategory from './assets/women-categories/salwar-kameez.jpg'
+import kurtiCategory from './assets/women-categories/kurti.jpg'
+import nightwearCategory from './assets/women-categories/nightwear.jpg'
 import './App.css'
 
 const slides = [
@@ -21,17 +25,29 @@ const slides = [
   { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for<br /><em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1800&q=95' },
 ]
 
+const womenCategories = [
+  { name: 'Saree', style: 'Traditional', type: 'Saree', image: sareeCategory },
+  { name: 'Salwar Kameez', style: 'Traditional', type: 'Salwar Kameez', image: salwarKameezCategory },
+  { name: 'Kurti', style: 'Traditional', type: 'Kurti', image: kurtiCategory },
+  { name: 'Scarf', style: 'Western', image: womanScarf },
+  { name: 'Nightwear', style: 'Western', image: nightwearCategory },
+  { name: 'Tops', style: 'Western', image: womanTop },
+]
+
 const products = [
   { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', image: womanTshirt },
-  { name: 'Women’s Top', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', image: womanTop },
+  { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', image: womanTop },
   { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
   { name: 'Women’s Scarf', brand: 'Deshal', price: '750', size: 'Free size', group: 'Women', style: 'Western', image: womanScarf },
   { name: 'Floral Frock', brand: 'Forever 21', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Denim Jumpsuit', brand: 'Bershka', price: '1,450', size: 'M', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Handloom Cotton Saree', brand: 'Taan', price: '1,800', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Handloom Cotton Saree', brand: 'Taan', price: '1,800', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Long Kurti', brand: 'Kay Kraft', price: '1,050', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Short Kurti', brand: 'Aarong', price: '890', size: 'S', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Cotton Pyjama', brand: 'Deshal', price: '650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Classic Men’s Suit', brand: 'Zara', price: '2,400', size: 'L', group: 'Men', style: 'Western', image: menSuit },
   { name: 'Classic Shirt', brand: 'Ralph Lauren', price: '1,100', size: 'L', group: 'Men', style: 'Western', image: menShirt },
   { name: 'Limited T-Shirt', brand: 'Nike', price: '850', size: 'M', group: 'Men', style: 'Western', image: menTshirt },
@@ -52,14 +68,18 @@ function ProductCard({ product, showPrice = true }) {
 function App() {
   const [page, setPage] = useState('Home')
   const [collectionStyle, setCollectionStyle] = useState('All clothing')
+  const [traditionalType, setTraditionalType] = useState('')
+  const [womenMenuOpen, setWomenMenuOpen] = useState(false)
+  const [womenCategoryPage, setWomenCategoryPage] = useState(false)
   const [slide, setSlide] = useState(0)
   const [signInOpen, setSignInOpen] = useState(false)
   const activeSlide = slides[slide]
   const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear →' : `View ${activeSlide.group.toLowerCase()}’s wear →`
-  const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle))
+  const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (collectionStyle !== 'Traditional' || !traditionalType || product.type === traditionalType))
   const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
 
-  const goToPage = (newPage) => { setPage(newPage); setCollectionStyle('All clothing'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToPage = (newPage) => { setPage(newPage); setCollectionStyle(newPage === 'Women' ? 'Traditional' : 'All clothing'); setTraditionalType(''); setWomenCategoryPage(newPage === 'Women'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToWomenCollection = (style, type = '') => { setPage('Women'); setCollectionStyle(style); setTraditionalType(type); setWomenCategoryPage(false); setWomenMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const changeSlide = (direction) => setSlide((current) => (current + direction + slides.length) % slides.length)
 
   useEffect(() => {
@@ -72,7 +92,7 @@ function App() {
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
     <header className="navbar">
       <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><button className="search-button" aria-label="Search products">⌕ <span>Search styles</span></button><button className="wishlist-button" aria-label="Saved styles">♡</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
-      <nav className="primary-nav">{['Home', 'Men', 'Women', 'Kids'].map((item) => <button className={page === item ? 'active' : ''} key={item} onClick={() => goToPage(item)}>{item}</button>)}<a href="#collection">New arrivals</a><a href="#how-it-works">How it works</a><a href="#newsletter">Community</a></nav>
+      <nav className="primary-nav"><button className={page === 'Home' ? 'active' : ''} onClick={() => goToPage('Home')}>Home</button><button className={page === 'Men' ? 'active' : ''} onClick={() => goToPage('Men')}>Men</button><div className="women-nav-item" onMouseEnter={() => setWomenMenuOpen(true)} onMouseLeave={() => setWomenMenuOpen(false)}><button className={page === 'Women' ? 'active' : ''} onClick={() => goToPage('Women')} aria-expanded={womenMenuOpen}>Women</button>{womenMenuOpen && <div className="women-mega-menu"><div className="women-menu-categories">{womenCategories.map((category) => <button key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}>{category.name}</button>)}</div><button className="women-menu-image" onClick={() => goToPage('Women')} aria-label="Shop women’s collection"><span>Shop women’s<br />collection <b>→</b></span></button></div>}</div><button className={page === 'Kids' ? 'active' : ''} onClick={() => goToPage('Kids')}>Kids</button><a href="#collection">New arrivals</a><a href="#how-it-works">How it works</a><a href="#newsletter">Community</a></nav>
     </header>
 
     <main>
@@ -83,11 +103,11 @@ function App() {
 
       <section className="values" aria-label="RetroFit promises"><div className="values-track">{['Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet', 'Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet'].map((message, index) => <p key={`${message}-${index}`}>{message}</p>)}</div></section>
 
-      <section className="shop-section" id="collection">
+      {page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
         <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button>}</div>
-        {page !== 'Home' && <div className="collection-tabs">{['All clothing', 'Traditional', 'Western'].map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => setCollectionStyle(style)}>{style}</button>)}</div>}
+        {page !== 'Home' && <><div className="collection-tabs">{(page === 'Women' ? ['Traditional', 'Western'] : ['All clothing', 'Traditional', 'Western']).map((style) => <button key={style} className={collectionStyle === style ? 'active' : ''} onClick={() => { setCollectionStyle(style); setTraditionalType('') }}>{style}</button>)}</div>{page === 'Women' && collectionStyle === 'Traditional' && <div className="subcategory-tabs" aria-label="Traditional clothing types">{['Saree', 'Salwar Kameez', 'Kurti'].map((type) => <button key={type} className={traditionalType === type ? 'active' : ''} onClick={() => setTraditionalType((current) => current === type ? '' : type)}>{type}</button>)}</div>}</>}
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} />)}</div>
-      </section>
+      </section>}
 
       <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button">Start selling <span>→</span></button></section>
       <section className="newsletter-section" id="newsletter"><div className="newsletter-intro"><div className="newsletter-title"><span aria-hidden="true">✉</span><h2>Stay tuned</h2></div><p>Get fresh finds, styling inspiration and updates from RetroFit.</p></div><form className="newsletter-form" onSubmit={(event) => event.preventDefault()}><div className="newsletter-fields"><input type="email" aria-label="Email address" placeholder="Enter email address" required /><input type="tel" aria-label="Mobile number" placeholder="Enter mobile number" required /><button type="submit">Subscribe</button></div></form></section>
