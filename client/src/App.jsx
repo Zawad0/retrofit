@@ -179,6 +179,30 @@ function ProductCard({ product, showPrice = true, onViewProduct }) {
 const numericPrice = (price) => Number(String(price).replaceAll(',', ''))
 const formatPrice = (price) => new Intl.NumberFormat('en-BD').format(price)
 
+// Keep common Bangla-English clothing spellings together, so a shopper does
+// not need to know the exact spelling used in a product title.
+const normaliseSearchText = (value) => String(value || '')
+  .toLowerCase()
+  .replace(/[’']/g, '')
+  .replace(/[^a-z0-9]+/g, ' ')
+  .replace(/\b(?:sharee|sari|shari)\b/g, 'saree')
+  .replace(/\b(?:kamij|kamiz)\b/g, 'kameez')
+  .replace(/\bpanjabi\b/g, 'punjabi')
+  .replace(/\btshirt\b/g, 't shirt')
+  .replace(/\s+/g, ' ')
+  .trim()
+
+const productSearchText = (product) => normaliseSearchText([
+  product.name,
+  product.group,
+  product.style,
+  product.type,
+  product.brand,
+  product.material,
+  product.size,
+  product.condition,
+].join(' '))
+
 function CartPage({ items, onQuantityChange, onRemove, onContinue, onCheckout }) {
   const subtotal = items.reduce((total, item) => total + numericPrice(item.product.price) * item.quantity, 0)
   const shipping = subtotal >= 1500 ? 0 : 100
@@ -213,7 +237,14 @@ function App() {
   const [imageZoomed, setImageZoomed] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [orderReference, setOrderReference] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const activeSlide = slides[slide]
+  const searchTokens = normaliseSearchText(searchTerm).split(' ').filter(Boolean)
+  const searchResults = searchTokens.length === 0 ? [] : products.filter((product) => {
+    const searchableProduct = productSearchText(product)
+    return searchTokens.every((token) => searchableProduct.includes(token))
+  })
   const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear →' : `View ${activeSlide.group.toLowerCase()}’s wear →`
   const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (!traditionalType || product.type === traditionalType))
   const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
@@ -237,11 +268,12 @@ function App() {
   return <>
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
     <header className="navbar">
-      <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><button className="search-button" aria-label="Search products">⌕ <span>Search styles</span></button><button className="wishlist-button" aria-label="Saved styles">♡</button><button className="cart-nav-button" onClick={goToCart} aria-label="Open shopping cart">Cart{cartItems.length > 0 && <span>{cartItems.reduce((count, item) => count + item.quantity, 0)}</span>}</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
+      <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><div className="search-area"><button className="search-button" onClick={() => setSearchOpen((open) => !open)} aria-expanded={searchOpen} aria-controls="product-search-results" aria-label="Search products">⌕ <span>Search styles</span></button>{searchOpen && <div className="search-popover"><label htmlFor="product-search">Search every product</label><input id="product-search" autoFocus value={searchTerm} onChange={(event) => { setSearchTerm(event.target.value); window.requestAnimationFrame(() => document.querySelector('#search-results-page')?.scrollIntoView({ behavior: 'smooth', block: 'start' })) }} onKeyDown={(event) => event.key === 'Escape' && setSearchOpen(false)} placeholder="Search products" /><div className="search-results" id="product-search-results" role="listbox">{searchTokens.length === 0 ? <p className="no-search-results">Type a product, category, brand, size, or material.</p> : searchResults.length > 0 ? <><p className="search-result-count">{searchResults.length} matching {searchResults.length === 1 ? 'product' : 'products'}</p>{searchResults.map((product) => <button type="button" className="search-result" key={product.name} onClick={() => { setSelectedProduct(product); setImageZoomed(false); setSearchOpen(false); setSearchTerm('') }} role="option"><img src={product.image} alt="" /><span><strong>{product.name}</strong><small>{product.group} · {product.type || product.style} · {product.brand}</small></span></button>)}</> : <p className="no-search-results">No matching products found.</p>}</div></div>}</div><button className="wishlist-button" aria-label="Saved styles">♡</button><button className="cart-nav-button" onClick={goToCart} aria-label="Open shopping cart">Cart{cartItems.length > 0 && <span>{cartItems.reduce((count, item) => count + item.quantity, 0)}</span>}</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
       <nav className="primary-nav"><button className={page === 'Home' ? 'active' : ''} onClick={() => goToPage('Home')}>Home</button><button className={page === 'Men' ? 'active' : ''} onClick={() => goToPage('Men')}>Men</button><button className={page === 'Women' ? 'active' : ''} onClick={() => goToPage('Women')}>Women</button><button className={page === 'Kids' ? 'active' : ''} onClick={() => goToPage('Kids')}>Kids</button><a href="#collection">New arrivals</a><a href="#how-it-works">How it works</a><a href="#newsletter">Community</a></nav>
     </header>
 
     <main>
+      {searchTokens.length > 0 && <section className="search-page" id="search-results-page"><div className="section-heading"><div><p className="eyebrow">SEARCH RESULTS</p><h2>{searchResults.length} {searchResults.length === 1 ? 'product' : 'products'} for “{searchTerm}”</h2></div><button className="clear-search-button" onClick={() => { setSearchTerm(''); setSearchOpen(false) }}>Clear search</button></div>{searchResults.length > 0 ? <div className="product-grid">{searchResults.map((product) => <ProductCard key={product.name} product={product} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div> : <div className="empty-search-results"><h3>No matching products found.</h3><p>Try another product name, category, brand, size, or material.</p></div>}</section>}
       {page === 'Home' && <section className="hero-section">
         <div className="hero-copy"><p className="eyebrow">{activeSlide.eyebrow}</p><h1>{activeSlide.title}</h1><p className="hero-text">{activeSlide.text}</p><div className="hero-actions"><button className="primary-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Shop the edit <span>→</span></button><button className="text-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Explore the collection</button></div><div className="slider-dots">{slides.map((_, index) => <button aria-label={`Show slide ${index + 1}`} className={slide === index ? 'selected' : ''} key={index} onClick={() => setSlide(index)} />)}</div></div>
         <div className="hero-image-wrap"><div className="slider-window"><div className="slider-track" style={{ transform: `translateX(-${slide * 100}%)` }}>{slides.map((item, index) => <img src={item.image} alt={`RetroFit collection ${index + 1}`} key={item.image} />)}</div></div><button className="hero-arrow previous" onClick={() => changeSlide(-1)} aria-label="Previous slide">‹</button><button className="hero-arrow next" onClick={() => changeSlide(1)} aria-label="Next slide">›</button></div>
