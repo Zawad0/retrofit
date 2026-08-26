@@ -6,7 +6,14 @@ import kidsHero from './assets/kids-hero.jpg'
 import womanTshirt from './assets/products/womantshirt.jpg'
 import womanTop from './assets/products/womantop.jpg'
 import womanJeans from './assets/products/womanjeans.jpg'
-import womanScarf from './assets/products/womenscaff.jpg'
+import pastelGeometricScarf from './assets/products/scarves/pastel-geometric.jpg'
+import colourBlockScarf from './assets/products/scarves/colour-block.jpg'
+import coralStripeScarf from './assets/products/scarves/coral-stripe.jpg'
+import blushFloralScarf from './assets/products/scarves/blush-floral.jpg'
+import oliveLeafNightdress from './assets/products/nightwear/olive-leaf-nightdress.png'
+import charcoalStripePajama from './assets/products/nightwear/charcoal-stripe-pajama.jpg'
+import redFloralNightdress from './assets/products/nightwear/red-floral-nightdress.jpg'
+import blushFloralNightdress from './assets/products/nightwear/blush-floral-nightdress.jpg'
 import kidsPicture from './assets/products/kid.jpg'
 import menSuit from './assets/products/men-suit.jpg'
 import menShirt from './assets/products/men-shirt.jpg'
@@ -54,6 +61,11 @@ import maroonEmbroideredSalwar from './assets/products/salwar-kameez/maroon-embr
 import blushFormalSalwar from './assets/products/salwar-kameez/blush-formal.jpg'
 import skyBlueClassicSalwar from './assets/products/salwar-kameez/sky-blue-classic.jpg'
 import oliveFloralSalwar from './assets/products/salwar-kameez/olive-floral.jpg'
+import heartPrintSalwar from './assets/products/salwar-kameez/heart-print.jpg'
+import whiteBluePrintKurti from './assets/products/kurtis/white-blue-print.jpg'
+import maroonFloralKurti from './assets/products/kurtis/maroon-floral.jpg'
+import rubyRedKurti from './assets/products/kurtis/ruby-red.jpg'
+import mustardBlockPrintKurti from './assets/products/kurtis/mustard-block-print.jpg'
 import lavenderPrintedPunjabi from './assets/products/punjabis/lavender-printed.jpg'
 import sageClassicPunjabi from './assets/products/punjabis/sage-classic.jpg'
 import navyFloralPunjabi from './assets/products/punjabis/navy-floral.jpg'
@@ -88,8 +100,8 @@ const womenCategories = [
   { name: 'Saree', style: 'Traditional', type: 'Saree', image: sareeCategory },
   { name: 'Salwar Kameez', style: 'Traditional', type: 'Salwar Kameez', image: salwarKameezCategory },
   { name: 'Kurti', style: 'Traditional', type: 'Kurti', image: kurtiCategory },
-  { name: 'Scarf', style: 'Western', image: womanScarf },
-  { name: 'Nightwear', style: 'Western', image: nightwearCategory },
+  { name: 'Scarf', style: 'Western', type: 'Scarf', image: blushFloralScarf },
+  { name: 'Nightwear', style: 'Western', type: 'Nightwear', image: nightwearCategory },
   { name: 'Tops', style: 'Western', image: womanTop },
 ]
 
@@ -112,7 +124,14 @@ const products = [
   { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', image: womanTshirt },
   { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', image: womanTop },
   { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
-  { name: 'Women’s Scarf', brand: 'Deshal', price: '750', size: 'Free size', group: 'Women', style: 'Western', image: womanScarf },
+  { name: 'Pastel Geometric Scarf', brand: 'Deshal', price: '100', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Light chiffon', usedFor: 'Used for 2 months', condition: 'Like New', image: pastelGeometricScarf, imagePosition: 'lower' },
+  { name: 'Colour Block Scarf', brand: 'Aarong', price: '125', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Soft voile', usedFor: 'Used for 3 months', condition: 'Like New', image: colourBlockScarf, imagePosition: 'lower' },
+  { name: 'Coral Stripe Scarf', brand: 'Kay Kraft', price: '150', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Cotton blend', usedFor: 'Used for 4 months', condition: 'Good', image: coralStripeScarf, imagePosition: 'lower' },
+  { name: 'Blush Floral Scarf', brand: 'Deshal', price: '200', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Printed chiffon', usedFor: 'Used for 5 months', condition: 'Good', image: blushFloralScarf, imagePosition: 'lower' },
+  { name: 'Olive Leaf Nightdress', brand: 'Comfort Wear', price: '480', size: 'M', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Soft cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: oliveLeafNightdress },
+  { name: 'Charcoal Stripe Pajama Set', brand: 'Comfort Wear', price: '450', size: 'L', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Cotton jersey', usedFor: 'Used for 2 months', condition: 'Like New', image: charcoalStripePajama },
+  { name: 'Red Floral Nightdress', brand: 'Deshal', price: '400', size: 'M', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Breathable cotton', usedFor: 'Used for 3 months', condition: 'Good', image: redFloralNightdress },
+  { name: 'Blush Floral Nightdress', brand: 'Comfort Wear', price: '350', size: 'L', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Printed cotton', usedFor: 'Used for 4 months', condition: 'Good', image: blushFloralNightdress },
   { name: 'Floral Frock', brand: 'Forever 21', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Denim Jumpsuit', brand: 'Bershka', price: '1,450', size: 'M', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Rose Gold Katan Saree', brand: 'Katan', price: '1,200', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 2 months', condition: 'Like New', image: katan4 },
@@ -129,15 +148,16 @@ const products = [
   { name: 'Mauve Cotton Saree', brand: 'Cotton', price: '700', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 5 months', condition: 'Good', image: cottonMauve },
   { name: 'Olive Green Cotton Saree', brand: 'Cotton', price: '850', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 3 months', condition: 'Like New', image: cottonGreen },
   { name: 'Olive Cotton Silk Saree', brand: 'Cotton Silk', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Cotton silk blend', usedFor: 'Used for 2 months', condition: 'Like New', image: cottonSilkOlive },
-  { name: 'Salwar Kameez Set', brand: 'Aarong', price: '1,650', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Maroon Embroidered Salwar Kameez', brand: 'Aarong', price: '600', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Embroidered cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: maroonEmbroideredSalwar },
   { name: 'Blush Formal Salwar Kameez', brand: 'Kay Kraft', price: '550', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Embroidered georgette', usedFor: 'Used for 3 months', condition: 'Like New', image: blushFormalSalwar },
   { name: 'Sky Blue Classic Salwar Kameez', brand: 'Deshal', price: '450', size: 'L', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Soft cotton', usedFor: 'Used for 4 months', condition: 'Good', image: skyBlueClassicSalwar },
   { name: 'Olive Floral Salwar Kameez', brand: 'Aarong', price: '350', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Cotton blend', usedFor: 'Used for 5 months', condition: 'Good', image: oliveFloralSalwar },
-  { name: 'Printed Kurti', brand: 'Kay Kraft', price: '950', size: 'L', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Heart Print Salwar Kameez', brand: 'Kay Kraft', price: '500', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Printed cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: heartPrintSalwar },
+  { name: 'White & Blue Print Kurti', brand: 'Aarong', price: '700', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Printed cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: whiteBluePrintKurti, imageFit: 'contain' },
+  { name: 'Maroon Floral Kurti', brand: 'Kay Kraft', price: '600', size: 'L', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Cotton blend', usedFor: 'Used for 3 months', condition: 'Like New', image: maroonFloralKurti, imageFit: 'contain' },
+  { name: 'Ruby Red Kurti', brand: 'Deshal', price: '500', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Soft cotton', usedFor: 'Used for 4 months', condition: 'Good', image: rubyRedKurti, imageFit: 'contain' },
+  { name: 'Mustard Block Print Kurti', brand: 'Aarong', price: '400', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Printed cotton', usedFor: 'Used for 5 months', condition: 'Good', image: mustardBlockPrintKurti, imageFit: 'contain' },
   { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Long Kurti', brand: 'Kay Kraft', price: '1,050', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Short Kurti', brand: 'Aarong', price: '890', size: 'S', group: 'Women', style: 'Traditional', type: 'Kurti', image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cotton Pyjama', brand: 'Deshal', price: '650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Classic Men’s Suit', brand: 'Zara', price: '2,400', size: 'L', group: 'Men', style: 'Western', type: 'Suit', image: menSuit },
   { name: 'Classic Shirt', brand: 'Ralph Lauren', price: '340', size: 'L', group: 'Men', style: 'Western', type: 'Shirt', material: 'Cotton', usedFor: 'Used for 2 months', condition: 'Good', image: menShirt },
@@ -185,7 +205,7 @@ const products = [
 ]
 
 function ProductCard({ product, showPrice = true, onViewProduct }) {
-  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`} onClick={(event) => event.stopPropagation()}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
+  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : product.imagePosition === 'lower' ? 'image-lower' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`} onClick={(event) => event.stopPropagation()}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
 }
 
 const numericPrice = (price) => Number(String(price).replaceAll(',', ''))
