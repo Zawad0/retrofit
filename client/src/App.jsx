@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import retrofitLogo from './assets/retrofit-logo.svg'
 import womanTshirt from './assets/products/womantshirt.jpg'
 import womanTop from './assets/products/womantop.jpg'
@@ -69,6 +69,7 @@ import maroonCheckShirt from './assets/products/shirts/maroon-check.jpg'
 import stoneCheckShirt from './assets/products/shirts/stone-check.jpg'
 import './App.css'
 import './product-modal.css'
+import './product-navigation.css'
 
 const slides = [
   { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for<br /><em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=95' },
@@ -173,11 +174,61 @@ const products = [
 ]
 
 function ProductCard({ product, showPrice = true, onViewProduct }) {
-  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => onViewProduct(product)} onKeyDown={(event) => event.key === 'Enter' && onViewProduct(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`} onClick={(event) => event.stopPropagation()}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => onViewProduct(product)}>View product <span>→</span></button></article>
+  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : ''} src={product.image} alt={product.name} /><button aria-label={`Save ${product.name}`} onClick={(event) => event.stopPropagation()}>♡</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
 }
 
 const numericPrice = (price) => Number(String(price).replaceAll(',', ''))
 const formatPrice = (price) => new Intl.NumberFormat('en-BD').format(price)
+
+const productFromUrl = () => {
+  const match = decodeURIComponent(window.location.pathname).match(/^\/product\/(.+)$/)
+  return match ? products.find((product) => product.name === decodeURIComponent(match[1])) || null : null
+}
+
+const openProductInNewTab = (product) => window.open(`${window.location.origin}/product/${encodeURIComponent(product.name)}`, '_blank', 'noopener')
+
+const collectionRouteForProduct = (product) => {
+  const isWomen = product.group === 'Women'
+  const state = {
+    page: product.group,
+    collectionStyle: isWomen ? product.style : 'All clothing',
+    traditionalType: product.type || '',
+    womenCategoryPage: false,
+    menCategoryPage: false,
+    kidsCategoryPage: false,
+  }
+  const path = isWomen
+    ? `/women/${encodeURIComponent(product.type || product.style)}`
+    : product.type
+      ? `/${product.group.toLowerCase()}/${encodeURIComponent(product.type)}`
+      : `/${product.group.toLowerCase()}`
+  return { state, path }
+}
+
+const routeStateFromPath = () => {
+  const parts = window.location.pathname.split('/').filter(Boolean).map(decodeURIComponent)
+  const base = { page: 'Home', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false, product: null }
+  if (parts[0] === 'product' && parts[1]) {
+    const product = products.find((item) => item.name === parts.slice(1).join('/')) || null
+    return product ? { ...collectionRouteForProduct(product).state, product } : base
+  }
+  if (parts[0] === 'cart') return { ...base, page: 'Cart' }
+  if (parts[0] === 'checkout') return { ...base, page: 'Checkout' }
+  if (parts[0] === 'order-confirmed') return { ...base, page: 'OrderSuccess' }
+  if (!['women', 'men', 'kids'].includes(parts[0])) return base
+
+  const group = `${parts[0][0].toUpperCase()}${parts[0].slice(1)}`
+  if (!parts[1]) return { ...base, page: group, collectionStyle: group === 'Women' ? 'Traditional' : 'All clothing', womenCategoryPage: group === 'Women', menCategoryPage: group === 'Men', kidsCategoryPage: group === 'Kids' }
+
+  const category = parts.slice(1).join('/')
+  const matchingProduct = products.find((product) => product.group === group && (product.type === category || (group === 'Women' && product.style === category)))
+  return {
+    ...base,
+    page: group,
+    collectionStyle: group === 'Women' ? matchingProduct?.style || category : 'All clothing',
+    traditionalType: matchingProduct?.type === category ? category : group === 'Women' && ['Traditional', 'Western'].includes(category) ? '' : category,
+  }
+}
 
 // Keep common Bangla-English clothing spellings together, so a shopper does
 // not need to know the exact spelling used in a product title.
@@ -225,21 +276,23 @@ function CheckoutPage({ items, onBackToCart, onPlaceOrder }) {
 }
 
 function App() {
-  const [page, setPage] = useState('Home')
-  const [collectionStyle, setCollectionStyle] = useState('All clothing')
-  const [traditionalType, setTraditionalType] = useState('')
-  const [womenCategoryPage, setWomenCategoryPage] = useState(false)
-  const [menCategoryPage, setMenCategoryPage] = useState(false)
-  const [kidsCategoryPage, setKidsCategoryPage] = useState(false)
+  const initialRoute = useRef(routeStateFromPath()).current
+  const [page, setPage] = useState(initialRoute.page)
+  const [collectionStyle, setCollectionStyle] = useState(initialRoute.collectionStyle)
+  const [traditionalType, setTraditionalType] = useState(initialRoute.traditionalType)
+  const [womenCategoryPage, setWomenCategoryPage] = useState(initialRoute.womenCategoryPage)
+  const [menCategoryPage, setMenCategoryPage] = useState(initialRoute.menCategoryPage)
+  const [kidsCategoryPage, setKidsCategoryPage] = useState(initialRoute.kidsCategoryPage)
   const [slide, setSlide] = useState(0)
   const [signInOpen, setSignInOpen] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedProduct, setSelectedProduct] = useState(initialRoute.product || productFromUrl())
   const [imageZoomed, setImageZoomed] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [orderReference, setOrderReference] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [infoPanel, setInfoPanel] = useState(null)
+  const restoringHistory = useRef(false)
   const activeSlide = slides[slide]
   const searchTokens = normaliseSearchText(searchTerm).split(' ').filter(Boolean)
   const searchResults = searchTokens.length === 0 ? [] : products.filter((product) => {
@@ -250,14 +303,24 @@ function App() {
   const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (!traditionalType || product.type === traditionalType))
   const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
 
-  const goToPage = (newPage) => { setPage(newPage); setCollectionStyle(newPage === 'Women' ? 'Traditional' : 'All clothing'); setTraditionalType(''); setWomenCategoryPage(newPage === 'Women'); setMenCategoryPage(newPage === 'Men'); setKidsCategoryPage(newPage === 'Kids'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
-  const goToWomenCollection = (style, type = '') => { setPage('Women'); setCollectionStyle(style); setTraditionalType(type); setWomenCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
-  const goToCategoryCollection = (group, type) => { setPage(group); setCollectionStyle('All clothing'); setTraditionalType(type); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
-  const goToCart = () => { setPage('Cart'); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const saveHistory = (state, path) => window.history.pushState(state, '', path)
+  const goToPage = (newPage) => { const state = { page: newPage, collectionStyle: newPage === 'Women' ? 'Traditional' : 'All clothing', traditionalType: '', womenCategoryPage: newPage === 'Women', menCategoryPage: newPage === 'Men', kidsCategoryPage: newPage === 'Kids' }; saveHistory(state, newPage === 'Home' ? '/' : `/${newPage.toLowerCase()}`); setPage(state.page); setCollectionStyle(state.collectionStyle); setTraditionalType(state.traditionalType); setWomenCategoryPage(state.womenCategoryPage); setMenCategoryPage(state.menCategoryPage); setKidsCategoryPage(state.kidsCategoryPage); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToWomenCollection = (style, type = '') => { const state = { page: 'Women', collectionStyle: style, traditionalType: type, womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, `/women/${encodeURIComponent(type || style)}`); setPage(state.page); setCollectionStyle(state.collectionStyle); setTraditionalType(state.traditionalType); setWomenCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToCategoryCollection = (group, type) => { const state = { page: group, collectionStyle: 'All clothing', traditionalType: type, womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, `/${group.toLowerCase()}/${encodeURIComponent(type)}`); setPage(state.page); setCollectionStyle(state.collectionStyle); setTraditionalType(state.traditionalType); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToSelectedProductCollection = (product) => {
+    setSelectedProduct(null)
+    setImageZoomed(false)
+    if (product.group === 'Women') return goToWomenCollection(product.style, product.type || '')
+    if (product.type) return goToCategoryCollection(product.group, product.type)
+    return goToPage(product.group)
+  }
+  const goBackToCategories = () => { setTraditionalType(''); if (page === 'Women') setWomenCategoryPage(true); if (page === 'Men') setMenCategoryPage(true); if (page === 'Kids') setKidsCategoryPage(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToCart = () => { const state = { page: 'Cart', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, '/cart'); setPage(state.page); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToCheckout = () => { const state = { page: 'Checkout', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, '/checkout'); setPage(state.page); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const addToCart = (product) => { setCartItems((items) => { const existing = items.find((item) => item.product.name === product.name); return existing ? items.map((item) => item.product.name === product.name ? { ...item, quantity: item.quantity + 1 } : item) : [...items, { product, quantity: 1 }] }); setSelectedProduct(null); setImageZoomed(false); goToCart() }
   const changeCartQuantity = (productName, quantity) => setCartItems((items) => quantity < 1 ? items.filter((item) => item.product.name !== productName) : items.map((item) => item.product.name === productName ? { ...item, quantity } : item))
   const removeFromCart = (productName) => setCartItems((items) => items.filter((item) => item.product.name !== productName))
-  const placeOrder = () => { setOrderReference(`RF-${String(Date.now()).slice(-6)}`); setCartItems([]); setPage('OrderSuccess'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const placeOrder = () => { const state = { page: 'OrderSuccess', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; setOrderReference(`RF-${String(Date.now()).slice(-6)}`); setCartItems([]); saveHistory(state, '/order-confirmed'); setPage(state.page); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const changeSlide = (direction) => setSlide((current) => (current + direction + slides.length) % slides.length)
 
   useEffect(() => {
@@ -265,6 +328,66 @@ function App() {
     const timer = window.setInterval(() => setSlide((current) => (current + 1) % slides.length), 4000)
     return () => window.clearInterval(timer)
   }, [page])
+
+  useEffect(() => {
+    if (selectedProduct) {
+      document.title = selectedProduct.name
+      return
+    }
+
+    if (['Women', 'Men', 'Kids'].includes(page)) {
+      const collectionName = traditionalType || (collectionStyle !== 'All clothing' ? collectionStyle : '')
+      document.title = collectionName ? `${page} Clothing | ${collectionName}` : `${page} Clothing`
+      return
+    }
+
+    document.title = page === 'Cart' ? 'Shopping Cart | RetroFit' : page === 'Checkout' ? 'Checkout | RetroFit' : 'RetroFit'
+  }, [page, collectionStyle, traditionalType, selectedProduct])
+
+  useEffect(() => {
+    const restorePage = (state) => {
+      restoringHistory.current = true
+      if (!state) {
+        const route = routeStateFromPath()
+        setPage(route.page); setCollectionStyle(route.collectionStyle); setTraditionalType(route.traditionalType); setWomenCategoryPage(route.womenCategoryPage); setMenCategoryPage(route.menCategoryPage); setKidsCategoryPage(route.kidsCategoryPage); setSelectedProduct(route.product)
+        return
+      }
+      setPage(state.page || 'Home'); setCollectionStyle(state.collectionStyle || 'All clothing'); setTraditionalType(state.traditionalType || ''); setWomenCategoryPage(Boolean(state.womenCategoryPage)); setMenCategoryPage(Boolean(state.menCategoryPage)); setKidsCategoryPage(Boolean(state.kidsCategoryPage)); setSelectedProduct(state.productName ? products.find((product) => product.name === state.productName) || null : null)
+    }
+    const onPopState = (event) => restorePage(event.state)
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  useEffect(() => {
+    if (!selectedProduct || restoringHistory.current) { restoringHistory.current = false; return }
+    const productPath = `/product/${encodeURIComponent(selectedProduct.name)}`
+
+    // A product opened in its own tab starts directly on /product/..., so create
+    // its collection as the previous history entry. The browser's native ← then
+    // returns shoppers to the correct category instead of an empty page.
+    if (window.location.pathname.startsWith('/product/') && !window.history.state) {
+      const { state: parentState, path: parentPath } = collectionRouteForProduct(selectedProduct)
+      const categoryState = {
+        page: selectedProduct.group,
+        collectionStyle: selectedProduct.group === 'Women' ? 'Traditional' : 'All clothing',
+        traditionalType: '',
+        womenCategoryPage: selectedProduct.group === 'Women',
+        menCategoryPage: selectedProduct.group === 'Men',
+        kidsCategoryPage: selectedProduct.group === 'Kids',
+      }
+      const homeState = { page: 'Home', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }
+      window.history.replaceState(homeState, '', '/')
+      saveHistory(categoryState, `/${selectedProduct.group.toLowerCase()}`)
+      saveHistory(parentState, parentPath)
+      saveHistory({ ...parentState, productName: selectedProduct.name }, productPath)
+      return
+    }
+
+    saveHistory({ page, collectionStyle, traditionalType, womenCategoryPage, menCategoryPage, kidsCategoryPage, productName: selectedProduct.name }, productPath)
+  }, [selectedProduct])
+
+  const closeProductDetails = () => window.location.pathname.startsWith('/product/') ? window.history.back() : setSelectedProduct(null)
 
   return <>
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
@@ -282,8 +405,8 @@ function App() {
 
       <section className="values" aria-label="RetroFit promises"><div className="values-track">{['Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet', 'Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet'].map((message, index) => <p key={`${message}-${index}`}>{message}</p>)}</div></section>
 
-      {page === 'Cart' ? <CartPage items={cartItems} onQuantityChange={changeCartQuantity} onRemove={removeFromCart} onContinue={() => goToPage('Home')} onCheckout={() => setPage('Checkout')} /> : page === 'Checkout' ? <CheckoutPage items={cartItems} onBackToCart={goToCart} onPlaceOrder={placeOrder} /> : page === 'OrderSuccess' ? <section className="order-success" id="collection"><span>✓</span><p className="eyebrow">ORDER CONFIRMED</p><h1>Thank you for your order.</h1><p>Your order reference is <strong>{orderReference}</strong>. We’ll contact you shortly to confirm delivery.</p><button className="primary-button" onClick={() => goToPage('Home')}>Continue shopping <span>→</span></button></section> : page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Men' && menCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{menCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Men', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Kids' && kidsCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by age</h1><div className="women-category-grid kids-category-grid">{kidsCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Kids', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
-        <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' && <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button>}</div>
+      {page === 'Cart' ? <CartPage items={cartItems} onQuantityChange={changeCartQuantity} onRemove={removeFromCart} onContinue={() => goToPage('Home')} onCheckout={goToCheckout} /> : page === 'Checkout' ? <CheckoutPage items={cartItems} onBackToCart={goToCart} onPlaceOrder={placeOrder} /> : page === 'OrderSuccess' ? <section className="order-success" id="collection"><span>✓</span><p className="eyebrow">ORDER CONFIRMED</p><h1>Thank you for your order.</h1><p>Your order reference is <strong>{orderReference}</strong>. We’ll contact you shortly to confirm delivery.</p><button className="primary-button" onClick={() => goToPage('Home')}>Continue shopping <span>→</span></button></section> : page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Men' && menCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{menCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Men', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Kids' && kidsCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by age</h1><div className="women-category-grid kids-category-grid">{kidsCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Kids', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
+        <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' ? <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button> : <button className="collection-back-button" onClick={goBackToCategories}>← Back to categories</button>}</div>
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div>
       </section>}
 
@@ -295,7 +418,7 @@ function App() {
     <footer id="how-it-works"><div className="footer-main"><div className="footer-brand"><button className="logo" onClick={() => goToPage('Home')}><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p>Fashion with a future.</p></div><div className="footer-contact"><p>CONTACT</p><a href="mailto:retrofit@gmail.com">retrofit@gmail.com</a><a href="tel:+8801700000000">+880 1700-000000</a></div><div className="footer-follow"><p>FOLLOW US</p><div className="social-links" aria-label="Follow RetroFit"><a className="facebook" href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5H17V3.7c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.1H7.8V13h2.7v8h3.3Z" /></svg></a><a className="instagram" href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.7" r="1" /></svg></a><a className="tiktok" href="https://www.tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.3 2.3 1.6 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.4v6.6a5.3 5.3 0 1 1-4.6-5.2v3.1a2.3 2.3 0 1 0 1.5 2.1V3H15Z" /></svg></a></div></div></div><div className="footer-bottom"><p>© 2026 RetroFit. All rights reserved.</p></div></footer>
     {infoPanel && <div className="info-overlay" role="presentation" onClick={() => setInfoPanel(null)}><section className="info-dialog" role="dialog" aria-modal="true" aria-labelledby="info-panel-title" onClick={(event) => event.stopPropagation()}><button className="close-info" onClick={() => setInfoPanel(null)} aria-label="Close information panel">×</button>{infoPanel === 'about' && <><img className="info-hero-image" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=90" alt="Friends choosing pre-loved clothing" /><div className="info-content"><p className="eyebrow">FASHION WITH A FUTURE</p><h2 id="info-panel-title">More style. Less waste.</h2><p>RetroFit is a thrift-shopping community where pre-loved clothes get a fresh beginning. Sellers can turn good-quality pieces they no longer wear into value, while shoppers can discover stylish, affordable fashion without stretching their budget.</p><p>We believe great style should be within reach for students, young professionals, and everyone who wants to shop thoughtfully. Every item re-worn is one small step towards a more sustainable wardrobe.</p></div></>}{infoPanel === 'categories' && <div className="info-content"><p className="eyebrow">SHOP YOUR WAY</p><h2 id="info-panel-title">Something for every story.</h2><p>Explore pre-loved fashion chosen for every age and style.</p><div className="info-category-grid"><button type="button" onClick={() => { setInfoPanel(null); goToPage('Women') }}><img src={sareeCategory} alt="Women's clothing" /><span>Women</span><small>Traditional & western finds</small></button><button type="button" onClick={() => { setInfoPanel(null); goToPage('Men') }}><img src={menTshirtCategory} alt="Men's clothing" /><span>Men</span><small>Everyday & festive styles</small></button><button type="button" onClick={() => { setInfoPanel(null); goToPage('Kids') }}><img src={kidsPicture} alt="Kids' clothing" /><span>Kids</span><small>Comfort for little adventures</small></button></div></div>}{infoPanel === 'service' && <><img className="info-hero-image" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=90" alt="Helpful customer support team" /><div className="info-content"><p className="eyebrow">WE ARE HERE TO HELP</p><h2 id="info-panel-title">Customer service that cares.</h2><p>Need help finding the right item, understanding a product, or placing an order? Our friendly support team is here to make thrift shopping simple, safe, and enjoyable.</p><div className="info-contact-list"><a href="mailto:retrofit@gmail.com">Email us: retrofit@gmail.com</a><a href="tel:+8801700000000">Call us: +880 1700-000000</a><span>Available every day, 10:00 AM–8:00 PM</span></div></div></>}{infoPanel === 'style' && <><img className="info-hero-image" src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1200&q=90" alt="Colourful clothing on a rack" /><div className="info-content"><p className="eyebrow">MAKE IT YOUR OWN</p><h2 id="info-panel-title">Pre-loved, personally styled.</h2><p>Mix timeless basics with one statement piece, choose fabrics that feel good, and wear what makes you confident. Great style is not about spending more—it is about choosing pieces that tell your story.</p></div></>}{infoPanel === 'more' && <><img className="info-hero-image" src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1200&q=90" alt="Thoughtfully arranged clothing collection" /><div className="info-content"><p className="eyebrow">LOOKING AHEAD</p><h2 id="info-panel-title">Our future goal.</h2><p>We want RetroFit to grow into Bangladesh's most trusted community for affordable, sustainable fashion—where every quality garment can find its next owner instead of going to waste.</p><p>Our next steps include bringing in more verified sellers, making product discovery easier, creating safer buying and selling experiences, and helping more students enjoy stylish fashion at prices that work for them.</p></div></>}</section></div>}
     {signInOpen && <div className="signin-overlay" role="presentation" onClick={() => setSignInOpen(false)}><section className="signin-dialog" role="dialog" aria-modal="true" aria-labelledby="signin-title" onClick={(event) => event.stopPropagation()}><button className="close-signin" onClick={() => setSignInOpen(false)} aria-label="Close sign in">×</button><p className="eyebrow">WELCOME BACK</p><h2 id="signin-title">Sign in to RetroFit</h2><p>Access your saved styles and keep fashion in circulation.</p><form onSubmit={(event) => event.preventDefault()}><label htmlFor="email">Email address</label><input id="email" type="email" placeholder="you@example.com" required /><label htmlFor="password">Password</label><input id="password" type="password" placeholder="Enter your password" required /><button className="primary-button" type="submit">Sign in <span>→</span></button></form><button className="create-account" type="button">New here? Create an account</button></section></div>}
-    {selectedProduct && <div className="product-modal-overlay" role="presentation" onClick={() => setSelectedProduct(null)}><section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-title" onClick={(event) => event.stopPropagation()}><button className="close-product-modal" onClick={() => setSelectedProduct(null)} aria-label="Close product details">×</button><div className="product-modal-image"><img className={imageZoomed ? 'zoomed' : ''} src={selectedProduct.image} alt={selectedProduct.name} onClick={() => setImageZoomed((zoomed) => !zoomed)} /><button className="image-zoom-button" onClick={() => setImageZoomed((zoomed) => !zoomed)}>{imageZoomed ? 'Zoom out' : 'Click image to zoom'}</button></div><div className="product-modal-details"><p className="eyebrow">{selectedProduct.group.toUpperCase()} · {(selectedProduct.type || selectedProduct.style).toUpperCase()}</p><h2 id="product-title">{selectedProduct.name}</h2><p className="product-modal-price">৳ {selectedProduct.price}</p><dl><div><dt>Brand</dt><dd>{selectedProduct.brand}</dd></div><div><dt>Material</dt><dd>{selectedProduct.material || (selectedProduct.group === 'Kids' ? 'Soft cotton' : 'Cotton blend')}</dd></div><div><dt>Used for</dt><dd>{selectedProduct.usedFor || 'Used for 1 month'}</dd></div><div><dt>Condition</dt><dd>{selectedProduct.condition || 'Good'}</dd></div><div><dt>Size</dt><dd>{selectedProduct.size}</dd></div></dl><button className="primary-button" onClick={() => addToCart(selectedProduct)}>Add to cart <span>→</span></button></div></section></div>}
+    {selectedProduct && <div className="product-modal-overlay" role="presentation" onClick={closeProductDetails}><section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-title" onClick={(event) => event.stopPropagation()}><button className="close-product-modal" onClick={closeProductDetails} aria-label="Close product details">×</button><button className="product-back-button" onClick={() => window.history.back()}>← Back to collection</button><div className="product-modal-image"><img className={imageZoomed ? 'zoomed' : ''} src={selectedProduct.image} alt={selectedProduct.name} onClick={() => setImageZoomed((zoomed) => !zoomed)} /><button className="image-zoom-button" onClick={() => setImageZoomed((zoomed) => !zoomed)}>{imageZoomed ? 'Zoom out' : 'Click image to zoom'}</button></div><div className="product-modal-details"><nav className="product-breadcrumb" aria-label="Product breadcrumb"><button type="button" onClick={() => goToPage(selectedProduct.group)}>{selectedProduct.group} clothing</button><span>/</span><button type="button" onClick={() => goToSelectedProductCollection(selectedProduct)}>{selectedProduct.type || selectedProduct.style}</button><span>/</span><span aria-current="page">{selectedProduct.name}</span></nav><p className="eyebrow">{selectedProduct.group.toUpperCase()} · {(selectedProduct.type || selectedProduct.style).toUpperCase()}</p><h2 id="product-title">{selectedProduct.name}</h2><p className="product-modal-price">৳ {selectedProduct.price}</p><dl><div><dt>Brand</dt><dd>{selectedProduct.brand}</dd></div><div><dt>Material</dt><dd>{selectedProduct.material || (selectedProduct.group === 'Kids' ? 'Soft cotton' : 'Cotton blend')}</dd></div><div><dt>Used for</dt><dd>{selectedProduct.usedFor || 'Used for 1 month'}</dd></div><div><dt>Condition</dt><dd>{selectedProduct.condition || 'Good'}</dd></div><div><dt>Size</dt><dd>{selectedProduct.size}</dd></div></dl><button className="primary-button" onClick={() => addToCart(selectedProduct)}>Add to cart <span>→</span></button></div></section></div>}
   </>
 }
 
