@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import retrofitLogo from './assets/retrofit-logo.svg'
 import womenHero from './assets/women-hero.jpg'
+import menHero from './assets/men-hero.jpg'
+import kidsHero from './assets/kids-hero.jpg'
 import womanTshirt from './assets/products/womantshirt.jpg'
 import womanTop from './assets/products/womantop.jpg'
 import womanJeans from './assets/products/womanjeans.jpg'
@@ -74,8 +76,8 @@ import './product-navigation.css'
 
 const slides = [
   { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for<br /><em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: womenHero },
-  { group: 'Kids', eyebrow: 'KIDS’ COLLECTION', title: <>Little looks,<br /><em>big smiles.</em></>, text: 'Find comfortable, colourful clothes for every little adventure.', image: kidsPicture },
-  { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for<br /><em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1800&q=95' },
+  { group: 'Kids', eyebrow: 'KIDS’ COLLECTION', title: <>Little looks,<br /><em>big smiles.</em></>, text: 'Find comfortable, colourful clothes for every little adventure.', image: kidsHero },
+  { group: 'Men', eyebrow: 'MEN’S COLLECTION', title: <>Classic fits for<br /><em>every day.</em></>, text: 'Explore quality western and traditional styles with plenty of life left in them.', image: menHero },
 ]
 
 const womenCategories = [
@@ -403,7 +405,7 @@ function App() {
       {searchTokens.length > 0 && <section className="search-page" id="search-results-page"><div className="section-heading"><div><p className="eyebrow">SEARCH RESULTS</p><h2>{searchResults.length} {searchResults.length === 1 ? 'product' : 'products'} for “{searchTerm}”</h2></div><button className="clear-search-button" onClick={() => { setSearchTerm(''); setSearchOpen(false) }}>Clear search</button></div>{searchResults.length > 0 ? <div className="product-grid">{searchResults.map((product) => <ProductCard key={product.name} product={product} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div> : <div className="empty-search-results"><h3>No matching products found.</h3><p>Try another product name, category, brand, size, or material.</p></div>}</section>}
       {page === 'Home' && <section className="hero-section">
         <div className="hero-copy"><p className="eyebrow">{activeSlide.eyebrow}</p><h1>{activeSlide.title}</h1><p className="hero-text">{activeSlide.text}</p><div className="hero-actions"><button className="primary-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Shop the edit <span>→</span></button><button className="text-button" onClick={() => document.querySelector('#collection').scrollIntoView({ behavior: 'smooth' })}>Explore the collection</button></div><div className="slider-dots">{slides.map((_, index) => <button aria-label={`Show slide ${index + 1}`} className={slide === index ? 'selected' : ''} key={index} onClick={() => setSlide(index)} />)}</div></div>
-        <div className="hero-image-wrap"><div className="slider-window"><div className="slider-track" style={{ transform: `translateX(-${slide * 100}%)` }}>{slides.map((item, index) => <img className={item.group === 'Women' ? 'women-hero-image' : ''} src={item.image} alt={`RetroFit collection ${index + 1}`} key={item.image} />)}</div></div><button className="hero-arrow previous" onClick={() => changeSlide(-1)} aria-label="Previous slide">‹</button><button className="hero-arrow next" onClick={() => changeSlide(1)} aria-label="Next slide">›</button></div>
+        <div className="hero-image-wrap"><div className="slider-window"><div className="slider-track" style={{ transform: `translateX(-${slide * 100}%)` }}>{slides.map((item, index) => <img className={item.group === 'Women' ? 'women-hero-image' : item.group === 'Men' ? 'men-hero-image' : ''} src={item.image} alt={`RetroFit collection ${index + 1}`} key={item.image} />)}</div></div><button className="hero-arrow previous" onClick={() => changeSlide(-1)} aria-label="Previous slide">‹</button><button className="hero-arrow next" onClick={() => changeSlide(1)} aria-label="Next slide">›</button></div>
       </section>}
 
       <section className="values" aria-label="RetroFit promises"><div className="values-track">{['Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet', 'Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet'].map((message, index) => <p key={`${message}-${index}`}>{message}</p>)}</div></section>
