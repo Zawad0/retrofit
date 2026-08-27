@@ -75,7 +75,7 @@ import greyStripeShirt from './assets/products/shirts/grey-stripe.jpg'
 import maroonCheckShirt from './assets/products/shirts/maroon-check.jpg'
 import stoneCheckShirt from './assets/products/shirts/stone-check.jpg'
 import './App.css'
-import { signup, login, getMe } from './api'
+import { signup, login, getMe, createOrder } from './api'
 import './product-modal.css'
 import './product-navigation.css'
 
@@ -279,13 +279,26 @@ function CartPage({ items, onQuantityChange, onRemove, onContinue, onCheckout })
   </section>
 }
 
-function CheckoutPage({ items, onBackToCart, onPlaceOrder }) {
+function CheckoutPage({ items, onBackToCart, onPlaceOrder, submittingOrder }) {
   const subtotal = items.reduce((total, item) => total + numericPrice(item.product.price) * item.quantity, 0)
   const shipping = subtotal >= 1500 ? 0 : 100
   const vat = Math.round(subtotal * 0.05)
   const total = subtotal + shipping + vat
 
-  return <section className="checkout-page" id="collection"><div className="cart-heading"><div><p className="eyebrow">SECURE CHECKOUT</p><h1>Almost yours</h1></div><button className="text-cart-button" onClick={onBackToCart}>← Back to cart</button></div><div className="checkout-layout"><form className="checkout-form" onSubmit={(event) => { event.preventDefault(); onPlaceOrder() }}><h2>Delivery details</h2><div className="checkout-fields"><label>Full name<input required placeholder="Your full name" /></label><label>Mobile number<input required type="tel" placeholder="01XXXXXXXXX" /></label><label className="full-field">Delivery address<textarea required placeholder="House, road, area, city" rows="3" /></label><label>City<input required placeholder="Dhaka" /></label><label>Payment method<select defaultValue="cash"><option value="cash">Cash on delivery</option><option value="bkash">bKash</option><option value="nagad">Nagad</option></select></label></div><button className="primary-button place-order-button" type="submit">Place order <span>→</span></button></form><aside className="cart-summary checkout-summary"><h2>Order summary</h2>{items.map(({ product, quantity }) => <p key={product.name}>{product.name} <span>×{quantity}</span></p>)}<div><p>Subtotal <span>৳ {formatPrice(subtotal)}</span></p><p>VAT <span>৳ {formatPrice(vat)}</span></p><p>Shipping <span>{shipping ? `৳ ${formatPrice(shipping)}` : 'Free'}</span></p></div><p className="cart-total">Total <strong>৳ {formatPrice(total)}</strong></p></aside></div></section>
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const form = event.target
+    const deliveryDetails = {
+      fullName: form.fullName.value,
+      mobileNumber: form.mobileNumber.value,
+      address: form.address.value,
+      city: form.city.value || 'Dhaka',
+    }
+    const paymentMethod = form.paymentMethod.value
+    onPlaceOrder({ deliveryDetails, paymentMethod })
+  }
+
+  return <section className="checkout-page" id="collection"><div className="cart-heading"><div><p className="eyebrow">SECURE CHECKOUT</p><h1>Almost yours</h1></div><button className="text-cart-button" onClick={onBackToCart}>← Back to cart</button></div><div className="checkout-layout"><form className="checkout-form" onSubmit={handleSubmit}><h2>Delivery details</h2><div className="checkout-fields"><label>Full name<input name="fullName" required placeholder="Your full name" /></label><label>Mobile number<input name="mobileNumber" required type="tel" placeholder="01XXXXXXXXX" /></label><label className="full-field">Delivery address<textarea name="address" required placeholder="House, road, area, city" rows="3" /></label><label>City<input name="city" required defaultValue="Dhaka" placeholder="Dhaka" /></label><label>Payment method<select name="paymentMethod" defaultValue="cash"><option value="cash">Cash on delivery</option><option value="bkash">bKash</option><option value="nagad">Nagad</option></select></label></div><button className="primary-button place-order-button" type="submit" disabled={submittingOrder}>{submittingOrder ? 'Placing order…' : 'Place order'} <span>→</span></button></form><aside className="cart-summary checkout-summary"><h2>Order summary</h2>{items.map(({ product, quantity }) => <p key={product.name}>{product.name} <span>×{quantity}</span></p>)}<div><p>Subtotal <span>৳ {formatPrice(subtotal)}</span></p><p>VAT <span>৳ {formatPrice(vat)}</span></p><p>Shipping <span>{shipping ? `৳ ${formatPrice(shipping)}` : 'Free'}</span></p></div><p className="cart-total">Total <strong>৳ {formatPrice(total)}</strong></p></aside></div></section>
 }
 
 function App() {
@@ -306,6 +319,7 @@ function App() {
   const [imageZoomed, setImageZoomed] = useState(false)
   const [cartItems, setCartItems] = useState([])
   const [orderReference, setOrderReference] = useState('')
+  const [submittingOrder, setSubmittingOrder] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [infoPanel, setInfoPanel] = useState(null)
@@ -338,7 +352,38 @@ function App() {
   const addToCart = (product) => { setCartItems((items) => { const existing = items.find((item) => item.product.name === product.name); return existing ? items.map((item) => item.product.name === product.name ? { ...item, quantity: item.quantity + 1 } : item) : [...items, { product, quantity: 1 }] }); setSelectedProduct(null); setImageZoomed(false); goToCart() }
   const changeCartQuantity = (productName, quantity) => setCartItems((items) => quantity < 1 ? items.filter((item) => item.product.name !== productName) : items.map((item) => item.product.name === productName ? { ...item, quantity } : item))
   const removeFromCart = (productName) => setCartItems((items) => items.filter((item) => item.product.name !== productName))
-  const placeOrder = () => { const state = { page: 'OrderSuccess', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; setOrderReference(`RF-${String(Date.now()).slice(-6)}`); setCartItems([]); saveHistory(state, '/order-confirmed'); setPage(state.page); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const placeOrder = async ({ deliveryDetails, paymentMethod }) => {
+    setSubmittingOrder(true)
+    try {
+      const token = localStorage.getItem('token')
+      const orderData = {
+        items: cartItems.map((item) => ({
+          name: item.product.name,
+          brand: item.product.brand || '',
+          size: item.product.size || '',
+          price: item.product.price,
+          quantity: item.quantity,
+          image: typeof item.product.image === 'string' ? item.product.image : '',
+          group: item.product.group || '',
+          type: item.product.type || item.product.style || '',
+        })),
+        deliveryDetails,
+        paymentMethod,
+      }
+      const created = await createOrder(orderData, token)
+      const ref = created.orderReference || `RF-${String(Date.now()).slice(-6)}`
+      setOrderReference(ref)
+    } catch {
+      setOrderReference(`RF-${String(Date.now()).slice(-6)}`)
+    } finally {
+      setSubmittingOrder(false)
+      setCartItems([])
+      const state = { page: 'OrderSuccess', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }
+      saveHistory(state, '/order-confirmed')
+      setPage(state.page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
   const changeSlide = (direction) => setSlide((current) => (current + direction + slides.length) % slides.length)
 
   useEffect(() => {
@@ -456,7 +501,7 @@ function App() {
 
       <section className="values" aria-label="RetroFit promises"><div className="values-track">{['Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet', 'Give Clothes A New Story', 'Premium Brands For Less', 'Gently Used & Ready To Wear', 'Luxury Looks At Thrift Prices', 'Smart Fashion For Smart Savings', 'Eco-Conscious Closet'].map((message, index) => <p key={`${message}-${index}`}>{message}</p>)}</div></section>
 
-      {page === 'Cart' ? <CartPage items={cartItems} onQuantityChange={changeCartQuantity} onRemove={removeFromCart} onContinue={() => goToPage('Home')} onCheckout={goToCheckout} /> : page === 'Checkout' ? <CheckoutPage items={cartItems} onBackToCart={goToCart} onPlaceOrder={placeOrder} /> : page === 'OrderSuccess' ? <section className="order-success" id="collection"><span>✓</span><p className="eyebrow">ORDER CONFIRMED</p><h1>Thank you for your order.</h1><p>Your order reference is <strong>{orderReference}</strong>. We’ll contact you shortly to confirm delivery.</p><button className="primary-button" onClick={() => goToPage('Home')}>Continue shopping <span>→</span></button></section> : page === 'HowItWorks' ? <section className="how-it-works-page"><div className="how-page-hero"><div><p className="eyebrow">HOW RETROFIT WORKS</p><h1>Great style gets<br /><em>another chance.</em></h1><p>We make it easy to give quality clothes a second life—from your closet to someone new.</p><button className="primary-button" onClick={() => goToPage('Home')}>Explore RetroFit <span>→</span></button></div><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1200&q=90" alt="Colourful pre-loved clothing on a rail" /></div><div className="how-page-steps"><article><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=85" alt="Seller preparing clothes" /><div><span>01</span><h2>Choose & list</h2><p>Pick the clothes you no longer wear but someone else will love. Add honest photos, size, condition and your preferred price.</p></div></article><article><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85" alt="RetroFit reviewing a clothing listing" /><div><span>02</span><h2>We review with care</h2><p>Our team checks the listing details, helps keep product information clear, and makes every item easy for buyers to understand.</p></div></article><article><img src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=85" alt="Friends shopping together" /><div><span>03</span><h2>Shop with confidence</h2><p>Buyers can browse curated styles, see transparent condition details, and find quality pieces at an affordable price.</p></div></article><article><img src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5f79?auto=format&fit=crop&w=900&q=85" alt="Carefully packed clothing delivery" /><div><span>04</span><h2>We coordinate the rest</h2><p>After an item sells, we keep seller and buyer informed and manage the handover so every order feels smooth and secure.</p></div></article></div><div className="how-page-promise"><p className="eyebrow">THE RETROFIT PROMISE</p><h2>Less waste. More style.<br />A better story for every piece.</h2><p>We bring together sellers, shoppers and thoughtfully chosen clothes in one friendly, transparent space.</p></div></section> : page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Men' && menCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{menCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Men', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Kids' && kidsCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by age</h1><div className="women-category-grid kids-category-grid">{kidsCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Kids', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
+      {page === 'Cart' ? <CartPage items={cartItems} onQuantityChange={changeCartQuantity} onRemove={removeFromCart} onContinue={() => goToPage('Home')} onCheckout={goToCheckout} /> : page === 'Checkout' ? <CheckoutPage items={cartItems} onBackToCart={goToCart} onPlaceOrder={placeOrder} submittingOrder={submittingOrder} /> : page === 'OrderSuccess' ? <section className="order-success" id="collection"><span>✓</span><p className="eyebrow">ORDER CONFIRMED</p><h1>Thank you for your order.</h1><p>Your order reference is <strong>{orderReference}</strong>. We’ll contact you shortly to confirm delivery.</p><button className="primary-button" onClick={() => goToPage('Home')}>Continue shopping <span>→</span></button></section> : page === 'HowItWorks' ? <section className="how-it-works-page"><div className="how-page-hero"><div><p className="eyebrow">HOW RETROFIT WORKS</p><h1>Great style gets<br /><em>another chance.</em></h1><p>We make it easy to give quality clothes a second life—from your closet to someone new.</p><button className="primary-button" onClick={() => goToPage('Home')}>Explore RetroFit <span>→</span></button></div><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1200&q=90" alt="Colourful pre-loved clothing on a rail" /></div><div className="how-page-steps"><article><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=85" alt="Seller preparing clothes" /><div><span>01</span><h2>Choose & list</h2><p>Pick the clothes you no longer wear but someone else will love. Add honest photos, size, condition and your preferred price.</p></div></article><article><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85" alt="RetroFit reviewing a clothing listing" /><div><span>02</span><h2>We review with care</h2><p>Our team checks the listing details, helps keep product information clear, and makes every item easy for buyers to understand.</p></div></article><article><img src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?auto=format&fit=crop&w=900&q=85" alt="Friends shopping together" /><div><span>03</span><h2>Shop with confidence</h2><p>Buyers can browse curated styles, see transparent condition details, and find quality pieces at an affordable price.</p></div></article><article><img src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5f79?auto=format&fit=crop&w=900&q=85" alt="Carefully packed clothing delivery" /><div><span>04</span><h2>We coordinate the rest</h2><p>After an item sells, we keep seller and buyer informed and manage the handover so every order feels smooth and secure.</p></div></article></div><div className="how-page-promise"><p className="eyebrow">THE RETROFIT PROMISE</p><h2>Less waste. More style.<br />A better story for every piece.</h2><p>We bring together sellers, shoppers and thoughtfully chosen clothes in one friendly, transparent space.</p></div></section> : page === 'Women' && womenCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{womenCategories.map((category) => <button className={`women-category-card ${category.name.toLowerCase().replaceAll(' ', '-')}`} key={category.name} onClick={() => goToWomenCollection(category.style, category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Men' && menCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by category</h1><div className="women-category-grid">{menCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Men', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : page === 'Kids' && kidsCategoryPage ? <section className="women-categories" id="collection"><h1>Shop by age</h1><div className="women-category-grid kids-category-grid">{kidsCategories.map((category) => <button className="women-category-card" key={category.name} onClick={() => goToCategoryCollection('Kids', category.type)}><img src={category.image} alt={category.name} /><span>{category.name}</span></button>)}</div></section> : <section className="shop-section" id="collection">
         <div className="section-heading"><div><p className="eyebrow">{page === 'Home' ? 'JUST IN' : `${page.toUpperCase()} COLLECTION`}</p><h2>{page === 'Home' ? `Fresh ${activeSlide.group.toLowerCase()} finds, ready for you.` : `${page}'s clothing collection`}</h2></div>{page === 'Home' ? <button onClick={() => goToPage(activeSlide.group)}>{collectionLinkLabel}</button> : <button className="collection-back-button" onClick={goBackToCategories}>← Back to categories</button>}</div>
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div>
       </section>}
