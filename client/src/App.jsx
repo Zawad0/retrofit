@@ -19,9 +19,23 @@ import oneToThreeCategory from './assets/kids-categories/1-3-years.jpg'
 import fourToSevenCategory from './assets/kids-categories/4-7-years.jpg'
 import eightToTwelveCategory from './assets/kids-categories/8-12-years.jpg'
 import kidsPicture from './assets/products/kid.jpg'
-import menSuit from './assets/products/men-suit.jpg'
+import burgundyTexturedBlazer from './assets/products/blazers/burgundy-textured-blazer.jpg'
+import camelTexturedBlazer from './assets/products/blazers/camel-textured-blazer.jpg'
+import blackFormalBlazer from './assets/products/blazers/black-formal-blazer.jpg'
+import navyClassicBlazer from './assets/products/blazers/navy-classic-blazer.jpg'
+import manchesterCityJersey from './assets/products/jerseys/manchester-city-jersey.jpg'
+import barcelonaHomeJersey from './assets/products/jerseys/barcelona-home-jersey.jpg'
+import barcelonaPurpleJersey from './assets/products/jerseys/barcelona-purple-jersey.jpg'
+import arsenalHomeJersey from './assets/products/jerseys/arsenal-home-jersey.jpg'
+import realMadridGreenJersey from './assets/products/jerseys/real-madrid-green-jersey.jpg'
+import realMadridHomeJersey from './assets/products/jerseys/real-madrid-home-jersey.jpg'
 import menShirt from './assets/products/men-shirt.jpg'
 import menTshirt from './assets/products/men-tshirt.jpg'
+import brownOversizedTshirt from './assets/products/tshirts/brown-oversized-tshirt.jpg'
+import charcoalGraphicTshirt from './assets/products/tshirts/charcoal-graphic-tshirt.jpg'
+import washedGraphicTshirt from './assets/products/tshirts/washed-graphic-tshirt.jpg'
+import blackOversizedTshirt from './assets/products/tshirts/black-oversized-tshirt.jpg'
+import espressoOversizedTshirt from './assets/products/tshirts/espresso-oversized-tshirt.jpg'
 import menPunjabi from './assets/products/men-punjabi.jpg'
 import babyBathSuit from './assets/products/baby-bath-suit.jpg'
 import cottonCoOrdSet from './assets/products/cotton-co-ord-set.jpg'
@@ -94,6 +108,7 @@ import './App.css'
 import './product-modal.css'
 import './product-navigation.css'
 import './sell-form.css'
+import './community-panel.css'
 
 const slides = [
   { group: 'Women', eyebrow: 'WOMEN’S COLLECTION', title: <>Style made for<br /><em>your next story.</em></>, text: 'Discover beautiful women’s traditional and western clothing ready for a second life.', image: womenHero },
@@ -115,7 +130,7 @@ const menCategories = [
   { name: 'Shirt', type: 'Shirt', image: menShirtCategory },
   { name: 'T-Shirt', type: 'T-Shirt', image: menTshirtCategory },
   { name: 'Jersey', type: 'Jersey', image: menJerseyCategory },
-  { name: 'Suit', type: 'Suit', image: menSuitCategory },
+  { name: 'Blazer', type: 'Blazer', image: menSuitCategory },
 ]
 
 const kidsCategories = [
@@ -164,9 +179,17 @@ const products = [
   { name: 'Mustard Block Print Kurti', brand: 'Aarong', price: '400', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Printed cotton', usedFor: 'Used for 5 months', condition: 'Good', image: mustardBlockPrintKurti, imageFit: 'contain' },
   { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cotton Pyjama', brand: 'Deshal', price: '650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Classic Men’s Suit', brand: 'Zara', price: '2,400', size: 'L', group: 'Men', style: 'Western', type: 'Suit', image: menSuit },
+  { name: 'Burgundy Textured Blazer', brand: 'Raymond', price: '1,600', size: 'M', group: 'Men', style: 'Western', type: 'Blazer', material: 'Textured cotton blend', usedFor: 'Used for 1 month', condition: 'Like New', image: burgundyTexturedBlazer },
+  { name: 'Camel Textured Blazer', brand: 'Ecstasy', price: '1,400', size: 'L', group: 'Men', style: 'Western', type: 'Blazer', material: 'Wool blend', usedFor: 'Used for 3 months', condition: 'Good', image: camelTexturedBlazer },
+  { name: 'Black Formal Blazer', brand: 'Zara', price: '1,200', size: 'M', group: 'Men', style: 'Western', type: 'Blazer', material: 'Polyester blend', usedFor: 'Used for 2 months', condition: 'Like New', image: blackFormalBlazer, imageFit: 'contain' },
+  { name: 'Navy Classic Blazer', brand: 'Mango Man', price: '800', size: 'XL', group: 'Men', style: 'Western', type: 'Blazer', material: 'Premium cotton blend', usedFor: 'Used for 4 months', condition: 'Good', image: navyClassicBlazer, imageFit: 'contain' },
   { name: 'Classic Shirt', brand: 'Ralph Lauren', price: '340', size: 'L', group: 'Men', style: 'Western', type: 'Shirt', material: 'Cotton', usedFor: 'Used for 2 months', condition: 'Good', image: menShirt },
   { name: 'Limited T-Shirt', brand: 'Nike', price: '180', size: 'M', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Cotton jersey', usedFor: 'Used for 15 days', condition: 'Like New', image: menTshirt },
+  { name: 'Brown Oversized T-Shirt', brand: 'Urban Thread', price: '450', size: 'L', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Heavyweight cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: brownOversizedTshirt },
+  { name: 'Charcoal Graphic T-Shirt', brand: 'Drift', price: '350', size: 'XL', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Cotton jersey', usedFor: 'Used for 3 months', condition: 'Good', image: charcoalGraphicTshirt },
+  { name: 'Washed Graphic T-Shirt', brand: 'Street Core', price: '500', size: 'L', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Washed cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: washedGraphicTshirt },
+  { name: 'Black Oversized T-Shirt', brand: 'H&M', price: '250', size: 'L', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Soft cotton', usedFor: 'Used for 4 months', condition: 'Good', image: blackOversizedTshirt },
+  { name: 'Espresso Oversized T-Shirt', brand: 'Zara', price: '400', size: 'M', group: 'Men', style: 'Western', type: 'T-Shirt', material: 'Premium cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: espressoOversizedTshirt },
   { name: 'Embroidered Panjabi', brand: 'Aarong', price: '650', size: 'L', group: 'Men', style: 'Traditional', type: 'Punjabi', material: 'Cotton blend', usedFor: 'Used for 3 months', condition: 'Good', image: menPunjabi },
   { name: 'Royal Festive Punjabi', brand: 'Aarong', price: '800', size: 'L', group: 'Men', style: 'Traditional', type: 'Punjabi', material: 'Silk blend', usedFor: 'Used for 1 month', condition: 'Like New', image: royalPunjabi },
   { name: 'Lavender Printed Punjabi', brand: 'Aarong', price: '780', size: 'L', group: 'Men', style: 'Traditional', type: 'Punjabi', material: 'Cotton blend', usedFor: 'Used for 1 month', condition: 'Like New', image: lavenderPrintedPunjabi },
@@ -190,6 +213,12 @@ const products = [
   { name: 'Maroon Check Shirt', brand: 'Zara', price: '450', size: 'L', group: 'Men', style: 'Western', type: 'Shirt', material: 'Cotton flannel', usedFor: 'Used for 3 months', condition: 'Good', image: maroonCheckShirt },
   { name: 'Stone Check Shirt', brand: 'M&S', price: '700', size: 'XL', group: 'Men', style: 'Western', type: 'Shirt', material: 'Brushed cotton', usedFor: 'Used for 15 days', condition: 'Like New', image: stoneCheckShirt },
   { name: 'Sports Jersey', brand: 'Adidas', price: '350', size: 'M', group: 'Men', style: 'Western', type: 'Jersey', material: 'Polyester', usedFor: 'Used for 2 months', condition: 'Good', image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=90' },
+  { name: 'Manchester City Home Jersey', brand: 'Puma', price: '400', size: 'L', group: 'Men', style: 'Western', type: 'Jersey', material: 'Breathable polyester', usedFor: 'Used for 1 month', condition: 'Like New', image: manchesterCityJersey, imageFit: 'contain' },
+  { name: 'Barcelona Home Jersey', brand: 'Nike', price: '380', size: 'M', group: 'Men', style: 'Western', type: 'Jersey', material: 'Breathable polyester', usedFor: 'Used for 2 months', condition: 'Like New', image: barcelonaHomeJersey, imageFit: 'contain' },
+  { name: 'Barcelona Purple Jersey', brand: 'Nike', price: '350', size: 'L', group: 'Men', style: 'Western', type: 'Jersey', material: 'Lightweight polyester', usedFor: 'Used for 3 months', condition: 'Good', image: barcelonaPurpleJersey, imageFit: 'contain' },
+  { name: 'Arsenal Home Jersey', brand: 'Adidas', price: '320', size: 'XL', group: 'Men', style: 'Western', type: 'Jersey', material: 'Moisture-wicking polyester', usedFor: 'Used for 2 months', condition: 'Good', image: arsenalHomeJersey, imageFit: 'contain' },
+  { name: 'Real Madrid Green Jersey', brand: 'Adidas', price: '280', size: 'M', group: 'Men', style: 'Western', type: 'Jersey', material: 'Lightweight polyester', usedFor: 'Used for 4 months', condition: 'Good', image: realMadridGreenJersey, imageFit: 'contain' },
+  { name: 'Real Madrid Home Jersey', brand: 'Adidas', price: '250', size: 'L', group: 'Men', style: 'Western', type: 'Jersey', material: 'Breathable polyester', usedFor: 'Used for 1 month', condition: 'Like New', image: realMadridHomeJersey, imageFit: 'contain' },
   { name: 'Straight Fit Jeans', brand: 'Levi\'s', price: '1,250', size: '32', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cotton Trousers', brand: 'M&S', price: '1,000', size: '34', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cherry Baby Bath Suit', brand: 'Mothercare', price: '320', size: '6–12 M', group: 'Kids', style: 'Western', type: 'Newborn', material: 'Soft cotton', usedFor: 'Used for 15 days', condition: 'Like New', image: babyBathSuit },
@@ -333,6 +362,7 @@ function App() {
   const [newsletterMessage, setNewsletterMessage] = useState('')
   const [sellFormOpen, setSellFormOpen] = useState(false)
   const [sellFormSubmitted, setSellFormSubmitted] = useState(false)
+  const [communityOpen, setCommunityOpen] = useState(false)
   const restoringHistory = useRef(false)
   const activeSlide = slides[slide]
 
@@ -344,6 +374,17 @@ function App() {
       handoverImage.alt = 'Two people handing over a box of folded clothes'
     }
   }, [page])
+
+  useEffect(() => {
+    if (!sellFormOpen) return
+    const photoInput = document.querySelector('.sell-request-form input[type="file"]')
+    const validatePhotoSize = () => {
+      const photo = photoInput?.files?.[0]
+      photoInput?.setCustomValidity(photo && photo.size > 1024 * 1024 * 1024 ? 'Please choose a photo that is 1 GB or smaller.' : '')
+    }
+    photoInput?.addEventListener('change', validatePhotoSize)
+    return () => photoInput?.removeEventListener('change', validatePhotoSize)
+  }, [sellFormOpen])
   const searchTokens = normaliseSearchText(searchTerm).split(' ').filter(Boolean)
   const searchResults = searchTokens.length === 0 ? [] : products.filter((product) => {
     const searchableProduct = productSearchText(product)
@@ -444,7 +485,7 @@ function App() {
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
     <header className="navbar">
       <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><div className="search-area"><button className="search-button" onClick={() => setSearchOpen((open) => !open)} aria-expanded={searchOpen} aria-controls="product-search-results" aria-label="Search products">⌕ <span>Search styles</span></button>{searchOpen && <div className="search-popover"><label htmlFor="product-search">Search every product</label><input id="product-search" autoFocus value={searchTerm} onChange={(event) => { setSearchTerm(event.target.value); window.requestAnimationFrame(() => document.querySelector('#search-results-page')?.scrollIntoView({ behavior: 'smooth', block: 'start' })) }} onKeyDown={(event) => event.key === 'Escape' && setSearchOpen(false)} placeholder="Search products" /><div className="search-results" id="product-search-results" role="listbox">{searchTokens.length === 0 ? <p className="no-search-results">Type a product, category, brand, size, or material.</p> : searchResults.length > 0 ? <><p className="search-result-count">{searchResults.length} matching {searchResults.length === 1 ? 'product' : 'products'}</p>{searchResults.map((product) => <button type="button" className="search-result" key={product.name} onClick={() => { setSelectedProduct(product); setImageZoomed(false); setSearchOpen(false); setSearchTerm('') }} role="option"><img src={product.image} alt="" /><span><strong>{product.name}</strong><small>{product.group} · {product.type || product.style} · {product.brand}</small></span></button>)}</> : <p className="no-search-results">No matching products found.</p>}</div></div>}</div><button className="wishlist-button" aria-label="Saved styles">♡</button><button className="cart-nav-button" onClick={goToCart} aria-label="Open shopping cart">Cart{cartItems.length > 0 && <span>{cartItems.reduce((count, item) => count + item.quantity, 0)}</span>}</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
-      <nav className="primary-nav"><button className={page === 'Home' ? 'active' : ''} onClick={() => goToPage('Home')}>Home</button><button className={page === 'Women' ? 'active' : ''} onClick={() => goToPage('Women')}>Women</button><button className={page === 'Men' ? 'active' : ''} onClick={() => goToPage('Men')}>Men</button><button className={page === 'Kids' ? 'active' : ''} onClick={() => goToPage('Kids')}>Kids</button><a href="#collection">New arrivals</a><button className={page === 'HowItWorks' ? 'active' : ''} onClick={goToHowItWorks}>How it works</button><a href="#newsletter">Community</a></nav>
+      <nav className="primary-nav"><button className={page === 'Home' ? 'active' : ''} onClick={() => goToPage('Home')}>Home</button><button className={page === 'Women' ? 'active' : ''} onClick={() => goToPage('Women')}>Women</button><button className={page === 'Men' ? 'active' : ''} onClick={() => goToPage('Men')}>Men</button><button className={page === 'Kids' ? 'active' : ''} onClick={() => goToPage('Kids')}>Kids</button><a href="#collection">New arrivals</a><button className={page === 'HowItWorks' ? 'active' : ''} onClick={goToHowItWorks}>How it works</button><button type="button" onClick={() => setCommunityOpen(true)}>Community</button></nav>
     </header>
 
     <main>
@@ -461,10 +502,11 @@ function App() {
         <div className="product-grid">{shownProducts.map((product) => <ProductCard key={product.name} product={product} showPrice={page !== 'Home'} onViewProduct={(productToView) => { setSelectedProduct(productToView); setImageZoomed(false) }} />)}</div>
       </section>}
 
-      <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button" type="button" onClick={() => { setSellFormSubmitted(false); setSellFormOpen(true) }}>Start selling <span>→</span></button></section>
+      {page === 'Home' && <section className="sell-section"><div><p className="eyebrow">YOUR CLOSET HAS VALUE</p><h2>Pass it on. Get paid.</h2></div><button className="light-button" type="button" onClick={() => { setSellFormSubmitted(false); setSellFormOpen(true) }}>Start selling <span>→</span></button></section>}
       <section className="newsletter-section" id="newsletter"><div className="newsletter-intro"><div className="newsletter-title"><span aria-hidden="true">✉</span><h2>Stay tuned</h2></div><p>Get fresh finds, styling inspiration and updates from RetroFit.</p></div><form className="newsletter-form" onSubmit={(event) => { event.preventDefault(); setNewsletterMessage('Thanks! You are now subscribed to RetroFit updates.'); event.currentTarget.reset(); window.setTimeout(() => setNewsletterMessage(''), 1200) }}><div className="newsletter-fields"><input type="email" aria-label="Email address" placeholder="Enter email address" required /><input type="tel" aria-label="Mobile number" placeholder="Enter mobile number" required /><button className={newsletterMessage ? 'subscribed' : ''} type="submit">Subscribe</button></div>{newsletterMessage && <p className="newsletter-success" role="status">{newsletterMessage}</p>}</form></section>
       <section className="footer-panels" aria-label="Explore RetroFit"><button type="button" className="footer-panel" onClick={() => setInfoPanel('about')} style={{ backgroundImage: "url('https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=900&q=85')" }}><span>Who we are</span></button><button type="button" className="footer-panel" onClick={() => setInfoPanel('categories')} style={{ backgroundImage: "url('https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=85')" }}><span>Categories</span></button><button type="button" className="footer-panel" onClick={() => setInfoPanel('service')} style={{ backgroundImage: "url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=900&q=85')" }}><span>Customer service</span></button><button type="button" className="footer-panel" onClick={() => setInfoPanel('style')} style={{ backgroundImage: "url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85')" }}><span>Style guide</span></button><button type="button" className="footer-panel" onClick={() => setInfoPanel('more')} style={{ backgroundImage: "url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=900&q=85')" }}><span>More</span></button></section>
     </main>
+    {communityOpen && <div className="community-overlay" role="presentation" onClick={() => setCommunityOpen(false)}><section className="community-dialog" role="dialog" aria-modal="true" aria-labelledby="community-title" onClick={(event) => event.stopPropagation()}><button className="close-community" type="button" onClick={() => setCommunityOpen(false)} aria-label="Close community information">×</button><p className="eyebrow">THE RETROFIT COMMUNITY</p><h2 id="community-title">Good clothes deserve<br /><em>another story.</em></h2><p>RetroFit brings thoughtful sellers and curious shoppers together to keep great fashion in circulation. Every item shared here is a small choice for more personal style, smarter spending and less waste.</p><div className="community-values"><article><span>01</span><h3>Share with care</h3><p>List pieces you no longer wear so someone else can love them next.</p></article><article><span>02</span><h3>Shop with purpose</h3><p>Find quality pre-loved styles that suit both your wardrobe and your budget.</p></article><article><span>03</span><h3>Make an impact</h3><p>Together, we make everyday fashion more circular and more meaningful.</p></article></div><button className="primary-button" type="button" onClick={() => setCommunityOpen(false)}>Explore RetroFit <span>→</span></button></section></div>}
     {sellFormOpen && <div className="sell-form-overlay" role="presentation" onClick={() => setSellFormOpen(false)}><section className="sell-form-dialog" role="dialog" aria-modal="true" aria-labelledby="sell-form-title" onClick={(event) => event.stopPropagation()}><button className="close-sell-form" type="button" onClick={() => setSellFormOpen(false)} aria-label="Close sell form">×</button>{sellFormSubmitted ? <div className="sell-form-success" role="status"><span>✓</span><h2 id="sell-form-title">Request submitted!</h2><p>Thanks for sharing your item. We’ll contact you by email or phone after reviewing the details.</p><button className="primary-button" type="button" onClick={() => setSellFormOpen(false)}>Done <span>→</span></button></div> : <><p className="eyebrow">SELL WITH RETROFIT</p><h2 id="sell-form-title">Tell us about your item</h2><p className="sell-form-note">Complete these details and we’ll help your item find its next home.</p><form className="sell-request-form" onSubmit={(event) => { event.preventDefault(); setSellFormSubmitted(true) }}><label><span>1. What would you like to sell?</span><input type="text" placeholder="Write the product name" required /></label><label><span>2. Upload a product photo</span><input type="file" accept="image/*" required /></label><label><span>3. How long have you used it?</span><select required defaultValue=""><option value="" disabled>Select duration</option><option>Less than 1 month</option><option>1–3 months</option><option>3–6 months</option><option>More than 6 months</option></select></label><label><span>4. What price would you like?</span><input type="number" min="1" inputMode="numeric" placeholder="Enter amount in ৳" required /></label><label><span>5. Your Gmail address</span><input type="email" placeholder="you@gmail.com" required /></label><label><span>6. Your phone number</span><input type="tel" inputMode="tel" placeholder="01XXXXXXXXX" pattern="01[0-9]{9}" required /></label><button className="primary-button" type="submit">Submit request <span>→</span></button></form></>}</section></div>}
 
     <footer id="how-it-works"><div className="footer-main"><div className="footer-brand"><button className="logo" onClick={() => goToPage('Home')}><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p>Fashion with a future.</p></div><div className="footer-contact"><p>CONTACT</p><a href="mailto:retrofit@gmail.com">retrofit@gmail.com</a><a href="tel:+8801700000000">+880 1700-000000</a></div><div className="footer-follow"><p>FOLLOW US</p><div className="social-links" aria-label="Follow RetroFit"><a className="facebook" href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5H17V3.7c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2v2.1H7.8V13h2.7v8h3.3Z" /></svg></a><a className="instagram" href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.7" r="1" /></svg></a><a className="tiktok" href="https://www.tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.3 2.3 1.6 3.8 4 4v3.1c-1.5 0-2.9-.5-4-1.4v6.6a5.3 5.3 0 1 1-4.6-5.2v3.1a2.3 2.3 0 1 0 1.5 2.1V3H15Z" /></svg></a></div></div></div><div className="footer-bottom"><p>© 2026 RetroFit. All rights reserved.</p></div></footer>
