@@ -5,7 +5,7 @@
 .hero-section .hero-arrow{z-index:6}
 .hero-copy{pointer-events:none}.hero-copy button{pointer-events:auto}
 .hero-copy em{font-style:normal}
-.product-image img.image-contain{object-fit:contain}
+.product-image img.image-contain{background:#fffdf9;object-fit:contain;padding:8px}
 .product-image img.image-lower{object-position:center 58%}
 .women-categories{padding:42px 2.5vw 92px}.women-categories h1{color:#111;font-size:34px;font-weight:700;letter-spacing:.5px;margin:0 0 25px;text-align:center;text-transform:uppercase}.women-category-grid{display:grid;gap:24px 16px;grid-template-columns:repeat(3,1fr)}.women-category-card{background:transparent;border:0;color:#111;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:0;text-align:center;text-transform:capitalize}.women-category-card img{aspect-ratio:3/3.75;display:block;object-fit:cover;transition:transform .3s ease;width:100%}.women-category-card.kurti img{object-position:center 25%}.women-category-card span{display:block;padding-top:12px}.women-category-card:hover img{transform:scale(.98)}.women-category-card:hover span{color:#c7623b}@media(max-width:700px){.women-categories{padding:35px 5vw 65px}.women-categories h1{font-size:26px}.women-category-grid{gap:20px 12px;grid-template-columns:repeat(2,1fr)}.women-category-card{font-size:13px}}
 .subcategory-tabs{display:flex;flex-wrap:wrap;gap:9px;margin:-12px 0 30px}.subcategory-tabs button{background:transparent;border:1px solid #c9d0c9;border-radius:99px;color:#466052;cursor:pointer;font-family:inherit;font-size:13px;padding:8px 15px}.subcategory-tabs button:hover,.subcategory-tabs button.active{border-color:#c7623b;color:#c7623b}
