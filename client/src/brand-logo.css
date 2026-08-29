@@ -1,0 +1,22 @@
+.logo::before { content: none !important; }
+.logo { min-width: 205px; }
+.brand-logo-image { display: block; height: 54px; width: 209px; }
+.logo-text { color: #173b2c !important; display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 38px; font-weight: 700; letter-spacing: -2px; line-height: .72; text-align: left; }
+.logo-text > span { color: #bc5b3c !important; }
+.logo-text small { color: #6d786f !important; display: block; font-family: 'DM Sans', Arial, sans-serif; font-size: 7px; font-weight: 700; letter-spacing: 1.55px; line-height: 1; margin: 10px 0 0 2px; white-space: nowrap; }
+.logo-symbol { display: inline-flex; flex: 0 0 auto; height: 40px; margin-right: 10px; width: 40px; }
+.logo-symbol svg { height: 100%; width: 100%; }
+.logo-symbol rect { fill: #173b2c; }
+.logo-symbol path { fill: #f7e6c2; }
+.logo-name { color: #173b2c; display: flex; flex-wrap: wrap; font-family: 'DM Sans', Arial, sans-serif; font-size: 21px; font-weight: 800; letter-spacing: 1px; line-height: .9; max-width: 135px; text-align: left; }
+.logo-name > span { color: #bc5b3c; }
+.logo-name small { color: #788178; flex-basis: 100%; font-family: 'DM Sans', Arial, sans-serif; font-size: 7px; font-weight: 700; letter-spacing: 1.35px; margin-top: 6px; white-space: nowrap; }
+.footer-brand .logo-symbol { height: 32px; width: 32px; }
+.footer-brand .logo { font-size: 31px !important; }
+.footer-brand .brand-logo-image { height: 46px; width: 178px; }
+.footer-brand .logo-name { font-size: 18px; }
+.footer-brand .logo-text { font-size: 34px; }
+
+@media (max-width: 700px) {
+  .logo { min-width: 160px; }.brand-logo-image { height: 47px; width: 182px; }.logo-text { font-size: 33px; }.logo-text small { font-size: 6px; }
+}
