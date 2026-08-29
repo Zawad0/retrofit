@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Order = require("../models/Order");
 
 // Create new order
@@ -36,17 +37,21 @@ const createOrder = async (req, res) => {
     const randomDigits = Math.floor(100 + Math.random() * 900);
     const orderReference = req.body.orderReference || `RF-${timestampSuffix}${randomDigits}`;
 
-    const normalizedItems = items.map((item) => ({
-      product: item.product || item._id,
-      name: item.name || item.product?.name,
-      brand: item.brand || item.product?.brand || "",
-      size: item.size || item.product?.size || "",
-      price: Number(String(item.price || item.product?.price).replace(/,/g, "")) || 0,
-      quantity: Number(item.quantity) || 1,
-      image: item.image || item.product?.image || "",
-      group: item.group || item.product?.group || "",
-      type: item.type || item.product?.type || "",
-    }));
+    const normalizedItems = items.map((item) => {
+      const candidateId = item.product || item._id;
+      const validProductId = candidateId && mongoose.Types.ObjectId.isValid(candidateId) ? candidateId : undefined;
+      return {
+        product: validProductId,
+        name: item.name || item.product?.name,
+        brand: item.brand || item.product?.brand || "",
+        size: item.size || item.product?.size || "",
+        price: Number(String(item.price || item.product?.price).replace(/,/g, "")) || 0,
+        quantity: Number(item.quantity) || 1,
+        image: item.image || item.product?.image || "",
+        group: item.group || item.product?.group || "",
+        type: item.type || item.product?.type || "",
+      };
+    });
 
     const order = await Order.create({
       user: req.user ? req.user._id : undefined,
