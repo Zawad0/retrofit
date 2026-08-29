@@ -255,11 +255,12 @@ function ProductCard({ product, showPrice = true, onViewProduct }) {
       const savedProducts = JSON.parse(window.localStorage.getItem('retrofit-favourites') || '[]')
       const updatedProducts = currentlySaved ? savedProducts.filter((name) => name !== product.name) : [...new Set([...savedProducts, product.name])]
       window.localStorage.setItem('retrofit-favourites', JSON.stringify(updatedProducts))
+      window.dispatchEvent(new Event('retrofit-favourites-updated'))
       return !currentlySaved
     })
   }
 
-  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : product.imagePosition === 'lower' ? 'image-lower' : ''} src={product.image} alt={product.name} /><button className={isFavourite ? 'is-favourite' : ''} aria-label={`${isFavourite ? 'Remove' : 'Add'} ${product.name} ${isFavourite ? 'from' : 'to'} favourites`} aria-pressed={isFavourite} onClick={toggleFavourite}>{isFavourite ? '♥' : '♡'}</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
+  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : product.imagePosition === 'lower' ? 'image-lower' : ''} src={product.image} alt={product.name} /><button className={isFavourite ? 'is-favourite' : ''} aria-label={`${isFavourite ? 'Remove' : 'Add'} ${product.name} ${isFavourite ? 'from' : 'to'} favourites`} aria-pressed={isFavourite} onClick={toggleFavourite}>{isFavourite ? '♥' : '♡'}</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand} · {product.size}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button type="button" className={`favourite-product-button ${isFavourite ? 'is-favourite' : ''}`} onClick={toggleFavourite} aria-pressed={isFavourite}>{isFavourite ? '♥ Saved to favourites' : '♡ Add to favourites'}</button><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
 }
 
 const numericPrice = (price) => Number(String(price).replaceAll(',', ''))
@@ -298,6 +299,7 @@ const routeStateFromPath = () => {
     return product ? { ...collectionRouteForProduct(product).state, product } : base
   }
   if (parts[0] === 'cart') return { ...base, page: 'Cart' }
+  if (parts[0] === 'favourites') return { ...base, page: 'Favourites' }
   if (parts[0] === 'checkout') return { ...base, page: 'Checkout' }
   if (parts[0] === 'order-confirmed') return { ...base, page: 'OrderSuccess' }
   if (parts[0] === 'how-it-works') return { ...base, page: 'HowItWorks' }
@@ -392,6 +394,9 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(initialRoute.product || productFromUrl())
   const [imageZoomed, setImageZoomed] = useState(false)
   const [cartItems, setCartItems] = useState([])
+  const [favouriteNames, setFavouriteNames] = useState(() => {
+    try { return JSON.parse(window.localStorage.getItem('retrofit-favourites') || '[]') } catch { return [] }
+  })
   const [orderReference, setOrderReference] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -401,6 +406,14 @@ function App() {
   const [sellFormSubmitted, setSellFormSubmitted] = useState(false)
   const restoringHistory = useRef(false)
   const activeSlide = slides[slide]
+
+  useEffect(() => {
+    const refreshFavourites = () => {
+      try { setFavouriteNames(JSON.parse(window.localStorage.getItem('retrofit-favourites') || '[]')) } catch { setFavouriteNames([]) }
+    }
+    window.addEventListener('retrofit-favourites-updated', refreshFavourites)
+    return () => window.removeEventListener('retrofit-favourites-updated', refreshFavourites)
+  }, [])
 
   useEffect(() => {
     if (page !== 'HowItWorks') return
@@ -427,7 +440,7 @@ function App() {
     return searchTokens.every((token) => searchableProduct.includes(token))
   })
   const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear' : `View ${activeSlide.group.toLowerCase()}’s wear`
-  const collectionProducts = page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (!traditionalType || product.type === traditionalType))
+  const collectionProducts = page === 'Favourites' ? products.filter((product) => favouriteNames.includes(product.name)) : page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (!traditionalType || product.type === traditionalType))
   const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
 
   const saveHistory = (state, path) => window.history.pushState(state, '', path)
@@ -445,6 +458,7 @@ function App() {
   }
   const goBackToCategories = () => { setTraditionalType(''); if (page === 'Women') setWomenCategoryPage(true); if (page === 'Men') setMenCategoryPage(true); if (page === 'Kids') setKidsCategoryPage(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const goToCart = () => { const state = { page: 'Cart', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, '/cart'); setPage(state.page); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
+  const goToFavourites = () => { const state = { page: 'Favourites', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, '/favourites'); setPage(state.page); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const goToCheckout = () => { const state = { page: 'Checkout', collectionStyle: 'All clothing', traditionalType: '', womenCategoryPage: false, menCategoryPage: false, kidsCategoryPage: false }; saveHistory(state, '/checkout'); setPage(state.page); setWomenCategoryPage(false); setMenCategoryPage(false); setKidsCategoryPage(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }
   const addToCart = (product) => { setCartItems((items) => { const existing = items.find((item) => item.product.name === product.name); return existing ? items.map((item) => item.product.name === product.name ? { ...item, quantity: item.quantity + 1 } : item) : [...items, { product, quantity: 1 }] }); setSelectedProduct(null); setImageZoomed(false); goToCart() }
   const changeCartQuantity = (productName, quantity) => setCartItems((items) => quantity < 1 ? items.filter((item) => item.product.name !== productName) : items.map((item) => item.product.name === productName ? { ...item, quantity } : item))
@@ -521,7 +535,7 @@ function App() {
   return <>
     <div className="topbar"><span>Free delivery inside Dhaka on orders over ৳ 1,500</span><a href="tel:+8801700000000">Need help? +880 1700-000000</a></div>
     <header className="navbar">
-      <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><div className="search-area"><button className="search-button" onClick={() => setSearchOpen((open) => !open)} aria-expanded={searchOpen} aria-controls="product-search-results" aria-label="Search products">⌕ <span>Search styles</span></button>{searchOpen && <div className="search-popover"><div className="search-popover-header"><label htmlFor="product-search">Search every product</label><button type="button" className="close-search-popover" onClick={() => setSearchOpen(false)} aria-label="Close product search">×</button></div><input id="product-search" autoFocus value={searchTerm} onChange={(event) => { setSearchTerm(event.target.value); window.requestAnimationFrame(() => document.querySelector('#search-results-page')?.scrollIntoView({ behavior: 'smooth', block: 'start' })) }} onKeyDown={(event) => event.key === 'Escape' && setSearchOpen(false)} placeholder="Search products" /><div className="search-results" id="product-search-results" role="listbox">{searchTokens.length === 0 ? <p className="no-search-results">Type a product, category, brand, size, or material.</p> : searchResults.length > 0 ? <><p className="search-result-count">{searchResults.length} matching {searchResults.length === 1 ? 'product' : 'products'}</p>{searchResults.map((product) => <button type="button" className="search-result" key={product.name} onClick={() => { setSelectedProduct(product); setImageZoomed(false); setSearchOpen(false); setSearchTerm('') }} role="option"><img src={product.image} alt="" /><span><strong>{product.name}</strong><small>{product.group} · {product.type || product.style} · {product.brand}</small></span></button>)}</> : <p className="no-search-results">No matching products found.</p>}</div></div>}</div><button className="wishlist-button" aria-label="Saved styles">♡</button><button className="cart-nav-button" onClick={goToCart} aria-label="Open shopping cart">Cart{cartItems.length > 0 && <span>{cartItems.reduce((count, item) => count + item.quantity, 0)}</span>}</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
+      <div className="nav-top"><button className="logo" onClick={() => goToPage('Home')} aria-label="RetroFit home"><img className="brand-logo-image" src={retrofitLogo} alt="RetroFit" /></button><p className="brand-tagline">REWEAR · RELOVE · REPEAT</p><div className="nav-actions"><div className="search-area"><button className="search-button" onClick={() => setSearchOpen((open) => !open)} aria-expanded={searchOpen} aria-controls="product-search-results" aria-label="Search products">⌕ <span>Search styles</span></button>{searchOpen && <div className="search-popover"><div className="search-popover-header"><label htmlFor="product-search">Search every product</label><button type="button" className="close-search-popover" onClick={() => setSearchOpen(false)} aria-label="Close product search">×</button></div><input id="product-search" autoFocus value={searchTerm} onChange={(event) => { setSearchTerm(event.target.value); window.requestAnimationFrame(() => document.querySelector('#search-results-page')?.scrollIntoView({ behavior: 'smooth', block: 'start' })) }} onKeyDown={(event) => event.key === 'Escape' && setSearchOpen(false)} placeholder="Search products" /><div className="search-results" id="product-search-results" role="listbox">{searchTokens.length === 0 ? <p className="no-search-results">Type a product, category, brand, size, or material.</p> : searchResults.length > 0 ? <><p className="search-result-count">{searchResults.length} matching {searchResults.length === 1 ? 'product' : 'products'}</p>{searchResults.map((product) => <button type="button" className="search-result" key={product.name} onClick={() => { setSelectedProduct(product); setImageZoomed(false); setSearchOpen(false); setSearchTerm('') }} role="option"><img src={product.image} alt="" /><span><strong>{product.name}</strong><small>{product.group} · {product.type || product.style} · {product.brand}</small></span></button>)}</> : <p className="no-search-results">No matching products found.</p>}</div></div>}</div><button className="wishlist-button" onClick={goToFavourites} aria-label="Open saved favourites">♡{favouriteNames.length > 0 && <span>{favouriteNames.length}</span>}</button><button className="cart-nav-button" onClick={goToCart} aria-label="Open shopping cart">Cart{cartItems.length > 0 && <span>{cartItems.reduce((count, item) => count + item.quantity, 0)}</span>}</button><button className="login-button" onClick={() => setSignInOpen(true)}>Sign in <span>→</span></button></div></div>
       <nav className="primary-nav"><button className={page === 'Home' ? 'active' : ''} onClick={() => goToPage('Home')}>Home</button><button className={page === 'Women' ? 'active' : ''} onClick={() => goToPage('Women')}>Women</button><button className={page === 'Men' ? 'active' : ''} onClick={() => goToPage('Men')}>Men</button><button className={page === 'Kids' ? 'active' : ''} onClick={() => goToPage('Kids')}>Kids</button><a href="#collection">New arrivals</a><button className={page === 'HowItWorks' ? 'active' : ''} onClick={goToHowItWorks}>How it works</button><button className={page === 'Community' ? 'active' : ''} type="button" onClick={goToCommunity}>Community</button></nav>
     </header>
 
