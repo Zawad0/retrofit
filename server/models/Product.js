@@ -102,7 +102,7 @@ const productSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to ensure category matches group and image/imageUrl sync
-productSchema.pre('save', function (next) {
+productSchema.pre('save', function () {
   if (!this.category && this.group) {
     this.category = this.group;
   }
@@ -115,7 +115,6 @@ productSchema.pre('save', function (next) {
   if (!this.imageUrl && this.image) {
     this.imageUrl = this.image;
   }
-  next();
 });
 
 const Product = mongoose.model('Product', productSchema);
