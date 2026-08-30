@@ -20,6 +20,10 @@ import newbornCategory from './assets/kids-categories/newborn.jpg'
 import oneToThreeCategory from './assets/kids-categories/1-3-years.jpg'
 import fourToSevenCategory from './assets/kids-categories/4-7-years.jpg'
 import eightToTwelveCategory from './assets/kids-categories/8-12-years.jpg'
+import creamPoloShortsSet from './assets/products/4-7-years/cream-polo-shorts-set.jpg'
+import usaSweatshirtDenimSet from './assets/products/4-7-years/usa-sweatshirt-denim-set.jpg'
+import heartSweatshirtDenimSet from './assets/products/4-7-years/heart-sweatshirt-denim-set.jpg'
+import pinkTracksuitSet from './assets/products/4-7-years/pink-tracksuit-set.jpg'
 import kidsPicture from './assets/products/kid.jpg'
 import greyCoOrdSet from './assets/products/8-12-years/grey-co-ord-set.jpg'
 import blackEmbroideredKurti from './assets/products/8-12-years/black-embroidered-kurti.jpg'
@@ -128,11 +132,6 @@ const slides = [
 ]
 
 const womenCategories = [
-  { name: 'Saree', style: 'Traditional', type: 'Saree', image: sareeCategory },
-  { name: 'Salwar Kameez', style: 'Traditional', type: 'Salwar Kameez', image: salwarKameezCategory },
-  { name: 'Kurti', style: 'Traditional', type: 'Kurti', image: kurtiCategory },
-  { name: 'Scarf', style: 'Western', type: 'Scarf', image: blushFloralScarf },
-  { name: 'Nightwear', style: 'Western', type: 'Nightwear', image: nightwearCategory },
   { name: 'Tops', style: 'Western', type: 'Tops', image: womanTop },
 ]
 
@@ -154,44 +153,6 @@ const kidsCategories = [
 const products = [
   { name: 'White Blue Floral Top', brand: 'Local Boutique', price: '450', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Printed cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: whiteBlueFloralTop, imageFit: 'contain' },
   { name: 'Rose Embroidered Top', brand: 'Local Boutique', price: '480', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Embroidered cotton blend', usedFor: 'Used for 2 months', condition: 'Good', image: roseEmbroideredTop, imageFit: 'contain' },
-  { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', type: 'T-Shirt', image: womanTshirt },
-  { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', type: 'Shirt', image: womanTop },
-  { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
-  { name: 'Pastel Geometric Scarf', brand: 'Deshal', price: '100', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Light chiffon', usedFor: 'Used for 2 months', condition: 'Like New', image: pastelGeometricScarf, imagePosition: 'lower' },
-  { name: 'Colour Block Scarf', brand: 'Aarong', price: '125', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Soft voile', usedFor: 'Used for 3 months', condition: 'Like New', image: colourBlockScarf, imagePosition: 'lower' },
-  { name: 'Coral Stripe Scarf', brand: 'Kay Kraft', price: '150', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Cotton blend', usedFor: 'Used for 4 months', condition: 'Good', image: coralStripeScarf, imagePosition: 'lower' },
-  { name: 'Blush Floral Scarf', brand: 'Deshal', price: '200', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Printed chiffon', usedFor: 'Used for 5 months', condition: 'Good', image: blushFloralScarf, imagePosition: 'lower' },
-  { name: 'Olive Leaf Nightdress', brand: 'Comfort Wear', price: '480', size: 'M', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Soft cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: oliveLeafNightdress, imageFit: 'contain' },
-  { name: 'Charcoal Stripe Pajama Set', brand: 'Comfort Wear', price: '450', size: 'L', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Cotton jersey', usedFor: 'Used for 2 months', condition: 'Like New', image: charcoalStripePajama, imageFit: 'contain' },
-  { name: 'Red Floral Nightdress', brand: 'Deshal', price: '400', size: 'M', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Breathable cotton', usedFor: 'Used for 3 months', condition: 'Good', image: redFloralNightdress, imageFit: 'contain' },
-  { name: 'Blush Floral Nightdress', brand: 'Comfort Wear', price: '350', size: 'L', group: 'Women', style: 'Western', type: 'Nightwear', material: 'Printed cotton', usedFor: 'Used for 4 months', condition: 'Good', image: blushFloralNightdress, imageFit: 'contain' },
-  { name: 'Floral Frock', brand: 'Forever 21', price: '1,350', size: 'S', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Denim Jumpsuit', brand: 'Bershka', price: '1,450', size: 'M', group: 'Women', style: 'Western', image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Rose Gold Katan Saree', brand: 'Katan', price: '1,000', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 2 months', condition: 'Like New', image: katan4 },
-  { name: 'Black & Red Katan Saree', brand: 'Katan', price: '950', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 4 months', condition: 'Like New', image: katan3 },
-  { name: 'Fuchsia Floral Katan Saree', brand: 'Katan', price: '1,000', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 1 month', condition: 'Like New', image: katan5 },
-  { name: 'Emerald Green Katan Saree', brand: 'Katan', price: '900', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 3 months', condition: 'Good', image: katanGreen },
-  { name: 'Wine Red Katan Saree', brand: 'Katan', price: '980', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Katan silk', usedFor: 'Used for 2 months', condition: 'Like New', image: katanMaroon },
-  { name: 'Black Monipuri Saree', brand: 'Monipuri', price: '850', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 5 months', condition: 'Good', image: monipuriBlack },
-  { name: 'Lavender Monipuri Saree', brand: 'Monipuri', price: '800', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: monipuriPurple },
-  { name: 'Blue & White Monipuri Saree', brand: 'Monipuri', price: '900', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 4 months', condition: 'Good', image: monipuriBlue },
-  { name: 'Sunshine Yellow Monipuri Saree', brand: 'Monipuri', price: '950', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: monipuriYellow },
-  { name: 'Yellow Border Monipuri Saree', brand: 'Monipuri', price: '750', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Monipuri cotton', usedFor: 'Used for 6 months', condition: 'Good', image: monipuriYellowBorder },
-  { name: 'Purple Embellished Cotton Saree', brand: 'Cotton', price: '900', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Soft cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: cottonPurple },
-  { name: 'Mauve Cotton Saree', brand: 'Cotton', price: '700', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 5 months', condition: 'Good', image: cottonMauve },
-  { name: 'Olive Green Cotton Saree', brand: 'Cotton', price: '850', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Pure cotton', usedFor: 'Used for 3 months', condition: 'Like New', image: cottonGreen },
-  { name: 'Olive Cotton Silk Saree', brand: 'Cotton Silk', price: '1,000', size: 'Free size', group: 'Women', style: 'Traditional', type: 'Saree', material: 'Cotton silk blend', usedFor: 'Used for 2 months', condition: 'Like New', image: cottonSilkOlive },
-  { name: 'Maroon Embroidered Salwar Kameez', brand: 'Aarong', price: '600', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Embroidered cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: maroonEmbroideredSalwar },
-  { name: 'Blush Formal Salwar Kameez', brand: 'Kay Kraft', price: '550', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Embroidered georgette', usedFor: 'Used for 3 months', condition: 'Like New', image: blushFormalSalwar },
-  { name: 'Sky Blue Classic Salwar Kameez', brand: 'Deshal', price: '450', size: 'L', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Soft cotton', usedFor: 'Used for 4 months', condition: 'Good', image: skyBlueClassicSalwar },
-  { name: 'Olive Floral Salwar Kameez', brand: 'Aarong', price: '350', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Cotton blend', usedFor: 'Used for 5 months', condition: 'Good', image: oliveFloralSalwar },
-  { name: 'Heart Print Salwar Kameez', brand: 'Kay Kraft', price: '500', size: 'M', group: 'Women', style: 'Traditional', type: 'Salwar Kameez', material: 'Printed cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: heartPrintSalwar },
-  { name: 'White & Blue Print Kurti', brand: 'Aarong', price: '700', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Printed cotton', usedFor: 'Used for 2 months', condition: 'Like New', image: whiteBluePrintKurti, imageFit: 'contain' },
-  { name: 'Maroon Floral Kurti', brand: 'Kay Kraft', price: '600', size: 'L', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Cotton blend', usedFor: 'Used for 3 months', condition: 'Like New', image: maroonFloralKurti, imageFit: 'contain' },
-  { name: 'Ruby Red Kurti', brand: 'Deshal', price: '500', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Soft cotton', usedFor: 'Used for 4 months', condition: 'Good', image: rubyRedKurti, imageFit: 'contain' },
-  { name: 'Mustard Block Print Kurti', brand: 'Aarong', price: '400', size: 'M', group: 'Women', style: 'Traditional', type: 'Kurti', material: 'Printed cotton', usedFor: 'Used for 5 months', condition: 'Good', image: mustardBlockPrintKurti, imageFit: 'contain' },
-  { name: 'Warm Chador', brand: 'Deshal', price: '1,100', size: 'Free size', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
-  { name: 'Cotton Pyjama', brand: 'Deshal', price: '650', size: 'M', group: 'Women', style: 'Traditional', image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Burgundy Textured Blazer', brand: 'Raymond', price: '1,600', size: 'M', group: 'Men', style: 'Western', type: 'Blazer', material: 'Textured cotton blend', usedFor: 'Used for 1 month', condition: 'Like New', image: burgundyTexturedBlazer },
   { name: 'Camel Textured Blazer', brand: 'Ecstasy', price: '1,400', size: 'L', group: 'Men', style: 'Western', type: 'Blazer', material: 'Wool blend', usedFor: 'Used for 3 months', condition: 'Good', image: camelTexturedBlazer },
   { name: 'Black Formal Blazer', brand: 'Zara', price: '1,200', size: 'M', group: 'Men', style: 'Western', type: 'Blazer', material: 'Polyester blend', usedFor: 'Used for 2 months', condition: 'Like New', image: blackFormalBlazer, imageFit: 'contain' },
@@ -236,8 +197,10 @@ const products = [
   { name: 'Cotton Trousers', brand: 'M&S', price: '1,000', size: '34', group: 'Men', style: 'Western', image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=90' },
   { name: 'Cherry Baby Bath Suit', brand: 'Mothercare', price: '320', size: '6–12 M', group: 'Kids', style: 'Western', type: 'Newborn', material: 'Soft cotton', usedFor: 'Used for 15 days', condition: 'Like New', image: babyBathSuit },
   { name: 'Cotton Co-ord Set', brand: 'Yellow', price: '350', size: '1–2 Y', group: 'Kids', style: 'Western', type: '1–3 years', material: 'Pure cotton', usedFor: 'Used for 1 month', condition: 'Good', image: cottonCoOrdSet, imageFit: 'contain' },
-  { name: 'Smocked Puff Sleeve Dress', brand: 'Mothercare', price: '350', size: '4–7 Y', group: 'Kids', style: 'Western', type: '4–7 years', material: 'Cotton blend', usedFor: 'Used for 2 months', condition: 'Good', image: smockedBabyDress, imageFit: 'contain' },
-  { name: 'Kids Casual Outfit', brand: 'H&M', price: '420', size: '8–12 Y', group: 'Kids', style: 'Western', type: '8–12 years', material: 'Cotton blend', usedFor: 'Used for 2 months', condition: 'Good', image: kidsPicture },
+  { name: 'Cream Polo & Cargo Shorts Set', brand: 'Deep Kids', price: '420', size: '4–7 Y', age: '4–7 years', group: 'Kids', style: 'Western', type: '4–7 years', material: 'Soft cotton blend', usedFor: 'Used for 1 month', condition: 'Like New', image: creamPoloShortsSet, imageFit: 'contain' },
+  { name: 'USA Sweatshirt & Denim Set', brand: 'Kids Club', price: '480', size: '4–7 Y', age: '4–7 years', group: 'Kids', style: 'Western', type: '4–7 years', material: 'Cotton fleece & denim', usedFor: 'Used for 2 months', condition: 'Good', image: usaSweatshirtDenimSet, imageFit: 'contain' },
+  { name: 'Happy Heart Denim Set', brand: 'Kids Club', price: '450', size: '4–7 Y', age: '4–7 years', group: 'Kids', style: 'Western', type: '4–7 years', material: 'Cotton fleece & denim', usedFor: 'Used for 1 month', condition: 'Like New', image: heartSweatshirtDenimSet, imageFit: 'contain' },
+  { name: 'Pink TrendyBae Tracksuit Set', brand: 'TrendyBae', price: '490', size: '4–7 Y', age: '4–7 years', group: 'Kids', style: 'Western', type: '4–7 years', material: 'Soft fleece blend', usedFor: 'Used for 2 months', condition: 'Good', image: pinkTracksuitSet, imageFit: 'contain' },
   { name: 'Grey Co-ord Set', brand: 'Stussy', price: '480', size: '8–12 Y', age: '11–12 years', group: 'Kids', style: 'Western', type: '8–12 years', material: 'Soft cotton blend', usedFor: 'Used for 1 month', condition: 'Like New', image: greyCoOrdSet, imageFit: 'contain' },
   { name: 'Black Embroidered Kurti', brand: 'Deshal', price: '450', size: '8–12 Y', age: '11–12 years', group: 'Kids', style: 'Traditional', type: '8–12 years', material: 'Embroidered georgette', usedFor: 'Used for 2 months', condition: 'Good', image: blackEmbroideredKurti, imageFit: 'contain' },
   { name: 'Red Print Kurti', brand: 'Aarong', price: '430', size: '8–12 Y', age: '11–12 years', group: 'Kids', style: 'Traditional', type: '8–12 years', material: 'Printed cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: redPrintKurti, imageFit: 'contain' },
