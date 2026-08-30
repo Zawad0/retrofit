@@ -6,6 +6,8 @@ import kidsHero from './assets/kids-hero.jpg'
 import womanTshirt from './assets/products/womantshirt.jpg'
 import womanTop from './assets/products/womantop.jpg'
 import womanJeans from './assets/products/womanjeans.jpg'
+import whiteBlueFloralTop from './assets/products/tops/white-blue-floral-top.jpg'
+import roseEmbroideredTop from './assets/products/tops/rose-embroidered-top.jpg'
 import pastelGeometricScarf from './assets/products/scarves/pastel-geometric.jpg'
 import colourBlockScarf from './assets/products/scarves/colour-block.jpg'
 import coralStripeScarf from './assets/products/scarves/coral-stripe.jpg'
@@ -150,6 +152,8 @@ const kidsCategories = [
 ]
 
 const products = [
+  { name: 'White Blue Floral Top', brand: 'Local Boutique', price: '450', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Printed cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: whiteBlueFloralTop, imageFit: 'contain' },
+  { name: 'Rose Embroidered Top', brand: 'Local Boutique', price: '480', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Embroidered cotton blend', usedFor: 'Used for 2 months', condition: 'Good', image: roseEmbroideredTop, imageFit: 'contain' },
   { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', type: 'Tops', image: womanTshirt },
   { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', type: 'Tops', image: womanTop },
   { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
