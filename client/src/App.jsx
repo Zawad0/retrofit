@@ -295,7 +295,7 @@ function ProductCard({ product, showPrice = true, onViewProduct }) {
     })
   }
 
-  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => openProductInNewTab(product)} onKeyDown={(event) => event.key === 'Enter' && openProductInNewTab(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : product.imagePosition === 'lower' ? 'image-lower' : ''} src={product.image} alt={product.name} /><button className={isFavourite ? 'is-favourite' : ''} aria-label={`${isFavourite ? 'Remove' : 'Add'} ${product.name} ${isFavourite ? 'from' : 'to'} favourites`} aria-pressed={isFavourite} onClick={toggleFavourite}>{isFavourite ? '♥' : '♡'}</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => openProductInNewTab(product)}>View product <span>→</span></button></article>
+  return <article className="product-card"><div className="product-image" role="button" tabIndex="0" onClick={() => onViewProduct(product)} onKeyDown={(event) => event.key === 'Enter' && onViewProduct(product)}><img className={product.imageFit === 'contain' ? 'image-contain' : product.imagePosition === 'lower' ? 'image-lower' : ''} src={product.image} alt={product.name} /><button className={isFavourite ? 'is-favourite' : ''} aria-label={`${isFavourite ? 'Remove' : 'Add'} ${product.name} ${isFavourite ? 'from' : 'to'} favourites`} aria-pressed={isFavourite} onClick={toggleFavourite}>{isFavourite ? '♥' : '♡'}</button></div><div className="product-details"><div><p className="product-category">{product.group}</p><h3>{product.name}</h3><p>{product.brand}</p></div>{showPrice && <strong>৳ {product.price}</strong>}</div><button className="view-product-button" onClick={() => onViewProduct(product)}>View product <span>→</span></button></article>
 }
 
 const numericPrice = (price) => Number(String(price).replaceAll(',', ''))
@@ -466,9 +466,25 @@ function App() {
   const restoringHistory = useRef(false)
   const activeSlide = slides[slide]
 
-  // Merge DB products with static demo products, prioritizing DB products (so new listings appear first) and avoiding duplicate entries.
+  // Merge DB products with static demo products, prioritizing DB products (so new listings
+  // appear first) but falling back to the local imported image when a DB product matches a
+  // static demo entry (DB products may have a generic placeholder image).
   const allProducts = (() => {
-    const combined = [...apiProducts, ...products]
+    const defaultFallback = 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80'
+    // Build a normalised-name → local-image map from the static catalogue
+    const staticImageByName = new Map()
+    for (const p of products) {
+      const key = normaliseSearchText(p.name)
+      if (key) staticImageByName.set(key, p.image)
+    }
+    // Patch DB products: if they have no real image (missing or generic fallback), use the local asset
+    const patchedApiProducts = apiProducts.map((p) => {
+      const hasRealImage = p.image && p.image !== defaultFallback
+      if (hasRealImage) return p
+      const localImage = staticImageByName.get(normaliseSearchText(p.name))
+      return localImage ? { ...p, image: localImage } : p
+    })
+    const combined = [...patchedApiProducts, ...products]
     const seen = new Set()
     return combined.filter((p) => {
       const normName = normaliseSearchText(p.name)
