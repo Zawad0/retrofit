@@ -133,7 +133,7 @@ const womenCategories = [
   { name: 'Kurti', style: 'Traditional', type: 'Kurti', image: kurtiCategory },
   { name: 'Scarf', style: 'Western', type: 'Scarf', image: blushFloralScarf },
   { name: 'Nightwear', style: 'Western', type: 'Nightwear', image: nightwearCategory },
-  { name: 'Tops', style: 'Western', image: womanTop },
+  { name: 'Tops', style: 'Western', type: 'Tops', image: womanTop },
 ]
 
 const menCategories = [
@@ -154,8 +154,8 @@ const kidsCategories = [
 const products = [
   { name: 'White Blue Floral Top', brand: 'Local Boutique', price: '450', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Printed cotton', usedFor: 'Used for 1 month', condition: 'Like New', image: whiteBlueFloralTop, imageFit: 'contain' },
   { name: 'Rose Embroidered Top', brand: 'Local Boutique', price: '480', size: 'M', group: 'Women', style: 'Western', type: 'Tops', material: 'Embroidered cotton blend', usedFor: 'Used for 2 months', condition: 'Good', image: roseEmbroideredTop, imageFit: 'contain' },
-  { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', type: 'Tops', image: womanTshirt },
-  { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', type: 'Tops', image: womanTop },
+  { name: 'Women’s T-Shirt', brand: 'Tokyo', price: '650', size: 'M', group: 'Women', style: 'Western', type: 'T-Shirt', image: womanTshirt },
+  { name: 'Cotton Shirt', brand: 'Aarong', price: '850', size: 'S', group: 'Women', style: 'Western', type: 'Shirt', image: womanTop },
   { name: 'Women’s Jeans', brand: 'Levi\'s', price: '1,200', size: '28', group: 'Women', style: 'Western', image: womanJeans },
   { name: 'Pastel Geometric Scarf', brand: 'Deshal', price: '100', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Light chiffon', usedFor: 'Used for 2 months', condition: 'Like New', image: pastelGeometricScarf, imagePosition: 'lower' },
   { name: 'Colour Block Scarf', brand: 'Aarong', price: '125', size: 'Free size', group: 'Women', style: 'Western', type: 'Scarf', material: 'Soft voile', usedFor: 'Used for 3 months', condition: 'Like New', image: colourBlockScarf, imagePosition: 'lower' },
