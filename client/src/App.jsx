@@ -252,6 +252,15 @@ const products = [
   { name: 'Cloud Print Baby Bodysuit', brand: 'Baby Shop', price: '280', size: '0–3 M', group: 'Kids', style: 'Western', type: 'Newborn', material: 'Soft cotton', usedFor: 'Used for 15 days', condition: 'Like New', image: cloudBodysuit },
 ]
 
+const homeFeaturedProductNames = {
+  Men: [
+    'Classic Shirt',
+    'Royal Festive Punjabi',
+    'Manchester City Home Jersey',
+    'Limited T-Shirt',
+  ],
+}
+
 const hasStandardSizeChart = (product) => product.group === 'Kids' || product.group === 'Men' || (product.group === 'Women' && ['Salwar Kameez', 'Kurti', 'Tops'].includes(product.type))
 
 function ProductCard({ product, showPrice = true, onViewProduct }) {
@@ -451,7 +460,10 @@ function App() {
   })
   const collectionLinkLabel = activeSlide.group === 'Kids' ? 'View kids’ wear' : `View ${activeSlide.group.toLowerCase()}’s wear`
   const collectionProducts = page === 'Favourites' ? products.filter((product) => favouriteNames.includes(product.name)) : page === 'Home' ? products.filter((product) => product.group === activeSlide.group) : products.filter((product) => product.group === page && (collectionStyle === 'All clothing' || product.style === collectionStyle) && (!traditionalType || product.type === traditionalType))
-  const shownProducts = page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
+  const featuredNames = homeFeaturedProductNames[activeSlide.group]
+  const shownProducts = page === 'Home' && featuredNames
+    ? featuredNames.map((name) => products.find((product) => product.name === name)).filter(Boolean)
+    : page === 'Home' ? collectionProducts.slice(0, 4) : collectionProducts
 
   const saveHistory = (state, path) => window.history.pushState(state, '', path)
   const goToPage = (newPage) => { const state = { page: newPage, collectionStyle: newPage === 'Women' ? 'Traditional' : 'All clothing', traditionalType: '', womenCategoryPage: newPage === 'Women', menCategoryPage: newPage === 'Men', kidsCategoryPage: newPage === 'Kids' }; saveHistory(state, newPage === 'Home' ? '/' : `/${newPage.toLowerCase()}`); setPage(state.page); setCollectionStyle(state.collectionStyle); setTraditionalType(state.traditionalType); setWomenCategoryPage(state.womenCategoryPage); setMenCategoryPage(state.menCategoryPage); setKidsCategoryPage(state.kidsCategoryPage); window.scrollTo({ top: 0, behavior: 'smooth' }) }

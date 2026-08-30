@@ -1,0 +1,13 @@
+RetroFit Project Presentation — source provenance
+
+Content sources
+- README.md: project purpose, intended users, planned roadmap, MERN stack and deployment target.
+- client/src/App.jsx: implemented UI interactions, catalog groups, product metadata, search/wishlist/cart and sell-request flow.
+- server/server.js, server/routes/productRoutes.js, server/controllers/productController.js, server/models/Product.js: implemented Express and MongoDB product API.
+
+Visual sources
+- All photographs and logo placed in the deck are project-local assets under client/src/assets/.
+- No external research, statistics, or externally sourced visual assets were used.
+
+Build note
+- The environment did not include the required internal artifact-tool runtime. The deck was generated with the locally installed PptxGenJS fallback after the internal package could not be resolved from npm.
