@@ -36,6 +36,10 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/seller', sellerRoutes);
+const offerRoutes = require('./routes/offerRoutes');
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/offers', offerRoutes);
+app.use('/api/users', userRoutes);
 app.get('/', (_req, res) => res.send('RetroFit API running.'));
 app.use((err, _req, res, _next) => {
   if (err.message === 'Origin is not allowed by CORS') return res.status(403).json({ message: err.message });

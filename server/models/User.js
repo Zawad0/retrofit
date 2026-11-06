@@ -5,5 +5,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['buyer', 'seller', 'admin'], default: 'buyer' },
   sellerRequested: { type: Boolean, default: false },
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
 }, { timestamps: true });
 module.exports = mongoose.model('User', userSchema);

@@ -21,3 +21,7 @@ router.delete("/:id", protect, verifySeller, deleteProduct);
 
 module.exports = router;
 
+
+const { listProductReviews, createProductReview } = require('../controllers/reviewController');
+router.get('/:id/reviews', listProductReviews);
+router.post('/:id/reviews', protect, createProductReview);
