@@ -71,6 +71,14 @@ export function createOrder(orderData, token) {
   });
 }
 
+export function createPaymentIntent(paymentData, token) {
+  return request('/payment/create-intent', {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: JSON.stringify(paymentData),
+  });
+}
+
 export function getMyOrders(token) {
   return request("/orders/mine", {
     headers: { Authorization: `Bearer ${token}` },

@@ -1,15 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  createOrder,
-  getMyOrders,
-  getOrderByReference,
-} = require("../controllers/orderController");
+const { getMyOrders, getOrderByReference } = require("../controllers/orderController");
 
-const { protect, optionalAuth } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
 
-router.post("/", optionalAuth, createOrder);
+// Prevent the former browser-calculated, unpaid order flow from creating orders.
+router.post("/", (_req, res) => res.status(410).json({ message: "Use the secure Stripe checkout endpoint." }));
 router.get("/mine", protect, getMyOrders);
 router.get("/:reference", getOrderByReference);
 

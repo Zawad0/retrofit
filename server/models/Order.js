@@ -86,9 +86,10 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ['cash', 'bkash', 'nagad'],
-      default: 'cash',
+      enum: ['stripe', 'cash', 'bkash', 'nagad'],
+      default: 'stripe',
     },
+    stripePaymentIntentId: { type: String, default: null, index: true },
     paymentStatus: {
       type: String,
       enum: ['pending', 'paid', 'failed'],

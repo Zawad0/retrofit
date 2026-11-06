@@ -245,3 +245,12 @@ Seller registration remains buyer-only until an admin approves the seller reques
 The seller API requires JWT auth and a `seller` or `admin` role. Product edits are limited to the owning seller; edits return the listing to pending review. Public catalog and product detail endpoints return only approved listings.
 
 For image uploads, copy `server/.env.example` to `server/.env` and set the Cloudinary cloud name, API key, API secret, and a signed upload preset. Create that preset in Cloudinary Console with image-only formats and a 5 MB upload limit. The API secret stays on the server; authenticated sellers request a timestamped signature and upload the file directly from the browser to Cloudinary. The resulting `secure_url` is stored on the product.
+# Stripe checkout and security setup
+
+1. Copy `server/.env.example` to `server/.env` and fill in MongoDB, JWT and Stripe test secrets. Copy `client/.env.example` to `client/.env` and add your Stripe publishable test key.
+2. Install dependencies from both `server` and `client` folders with `npm install`.
+3. Start the backend and frontend. Stripe checkout charges in BDT by default; change `STRIPE_CURRENCY` only to a currency supported by your Stripe account.
+4. For local webhook testing, install the Stripe CLI and run `stripe listen --forward-to localhost:5000/api/payment/webhook`; put its printed `whsec_...` secret in `server/.env`.
+5. See `server/SECURITY.md` for Atlas IP allowlisting and production CORS/webhook setup.
+
+The script `server/scripts/dedupe-report-text.js` checks or removes exact repeated paragraphs in a plain-text report export. Example: `node server/scripts/dedupe-report-text.js report.txt`, or add `--write` after reviewing the preview. Export a copy of a DOCX report to text first and review the results before replacing the original document.

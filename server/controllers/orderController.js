@@ -103,7 +103,20 @@ const getOrderByReference = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    res.status(200).json(order);
+    // A public reference lookup must not disclose buyer contact or delivery address.
+    res.status(200).json({
+      _id: order._id,
+      orderReference: order.orderReference,
+      items: order.items,
+      paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentStatus,
+      subtotal: order.subtotal,
+      shipping: order.shipping,
+      vat: order.vat,
+      total: order.total,
+      status: order.status,
+      createdAt: order.createdAt,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

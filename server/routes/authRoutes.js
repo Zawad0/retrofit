@@ -5,6 +5,7 @@ const { signup, login, getMe, requestSellerRole } = require("../controllers/auth
 const { protect } = require("../middleware/authMiddleware");
 
 router.post("/signup", signup);
+router.post("/register", signup);
 router.post("/login", login);
 router.get("/me", protect, getMe);
 router.post("/seller-request", protect, requestSellerRole);
