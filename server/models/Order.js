@@ -89,6 +89,12 @@ const orderSchema = new mongoose.Schema(
       enum: ['stripe', 'cash', 'bkash', 'nagad'],
       default: 'stripe',
     },
+    bkashDetails: {
+      payerNumber: { type: String, trim: true },
+      transactionId: { type: String, trim: true, uppercase: true },
+      merchantNumber: { type: String, trim: true },
+      paymentReference: { type: String, trim: true },
+    },
     stripePaymentIntentId: { type: String, default: null, index: true },
     paymentStatus: {
       type: String,
@@ -121,6 +127,8 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+orderSchema.index({ 'bkashDetails.transactionId': 1 }, { unique: true, partialFilterExpression: { 'bkashDetails.transactionId': { $type: 'string' } } });
 
 const Order = mongoose.model('Order', orderSchema);
 

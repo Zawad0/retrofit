@@ -86,6 +86,15 @@ const getOrder = async (req, res) => {
 
 const updateOrder = async (req, res) => {
   try {
+    if (req.body.paymentStatus !== undefined) {
+      if (req.body.paymentStatus !== 'paid') return res.status(400).json({ message: 'Payment status can only be verified as paid' });
+      const order = await Order.findById(req.params.id);
+      if (!order) return res.status(404).json({ message: 'Order not found' });
+      if (order.paymentMethod !== 'bkash' || !order.bkashDetails?.transactionId) return res.status(400).json({ message: 'Only bKash orders with a submitted TrxID can be verified' });
+      order.paymentStatus = 'paid';
+      await order.save();
+      return res.json(await order.populate('user', 'name email'));
+    }
     const allowedStatuses = ['Pending', 'Confirmed', 'Processing', 'Delivered', 'Cancelled'];
     if (!allowedStatuses.includes(req.body.status)) return res.status(400).json({ message: 'Invalid order status' });
     const order = await Order.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true, runValidators: true }).populate('user', 'name email');

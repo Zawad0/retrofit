@@ -3,13 +3,18 @@ export const API_BASE = configuredApiUrl.endsWith('/api') ? configuredApiUrl : `
 
 async function request(path, options = {}) {
   const { headers, ...restOptions } = options;
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...restOptions,
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...restOptions,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+    });
+  } catch {
+    throw new Error(`Can't connect to the RetroFit server at ${API_BASE}. Start the server or check VITE_API_URL.`);
+  }
   const data = await response.json();
   if (!response.ok) throw new Error(data.message || "Something went wrong");
   return data;
