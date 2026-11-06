@@ -56,3 +56,48 @@
 
 @media (max-width: 850px) { .brand-tagline,.search-button span,.wishlist-button { display: none; }.nav-top { grid-template-columns: 1fr auto; }.primary-nav { gap: 17px !important; overflow-x: auto; justify-content: flex-start; white-space: nowrap; }.hero-copy { width: 72% !important; }.how-it-works{grid-template-columns:1fr}.how-it-works-steps{grid-template-columns:repeat(3,1fr)}.how-page-steps{padding:70px 7vw}.how-page-steps article{grid-template-columns:130px 1fr} }
 @media (max-width: 700px) { .navbar { padding: 0 6vw 12px !important; }.nav-top { min-height: 68px; }.logo { font-size: 29px !important; }.topbar { display: none; }.primary-nav { display: flex !important; }.hero-section,.hero-image-wrap,.hero-section .hero-image-wrap { min-height: 620px !important; }.hero-copy { align-items: flex-start; height: 620px !important; justify-content: flex-end; padding: 230px 8vw 48px !important; width: 100% !important; }.hero-copy h1 { font-size: 42px !important; }.hero-copy .hero-text { font-size: 14px !important; }.hero-arrow { display: none; }.hero-note { right: 6vw !important; top: 24px !important; }.login-button { padding: 9px 13px !important; }.search-page { padding: 42px 6vw 58px; }.search-page .section-heading { align-items: flex-start; flex-direction: column; gap: 15px; }.clear-search-button { width: 100%; }.how-it-works{gap:32px;padding:62px 6vw}.how-it-works-intro h2{font-size:43px}.how-it-works-steps{grid-template-columns:1fr}.how-it-works-steps article{min-height:auto}.how-it-works-note{flex-direction:column;gap:6px}.how-page-hero{display:flex;flex-direction:column-reverse}.how-page-hero>div{padding:52px 7vw}.how-page-hero img{min-height:330px}.how-page-hero h1{font-size:55px}.how-page-steps{gap:34px;grid-template-columns:1fr;padding:54px 7vw}.how-page-steps article{grid-template-columns:110px 1fr}.how-page-steps h2{font-size:30px}.how-page-promise{padding:65px 7vw}.how-page-promise h2{font-size:45px} }
+
+
+/* Warm evergreen theme: soften the white canvas and unify shared surfaces. */
+:root { --ink: #183b32; --cream: #f4efe5; --sand: #e8ddc9; --rust: #b65f43; --gold: #c9a56a; --surface: #faf7f0; --surface-muted: #eee8dc; --line: #ddd4c5; }
+html, body { background: var(--cream); color: #263a32; }
+body { background: radial-gradient(ellipse at 50% 0%, #fbf8f1 0%, var(--cream) 72%); }
+.navbar, .search-popover, .women-mega-menu, .signin-dialog { background: var(--surface) !important; }
+.primary-nav { border-color: var(--line); }
+.shop-section, .search-page, .how-it-works-page { background: var(--cream) !important; }
+.how-it-works, .how-it-works-steps article, .product-card, .signin-dialog { background: var(--surface) !important; }
+.how-page-hero, .empty-search-results, .newsletter-section { background: var(--surface-muted) !important; }
+.how-page-promise { background: var(--ink) !important; color: var(--surface) !important; }
+.how-page-promise h2 { color: var(--surface) !important; }
+.how-page-promise>p:last-child { color: #d8e1da !important; }
+.values { background: var(--sand) !important; }
+.section-heading h2, .women-categories h1 { color: var(--ink) !important; }
+.product-card { border: 1px solid #e6dfd3; box-shadow: 0 8px 24px #183b320d; }
+.product-image img.image-contain { background: #f1ece2; }
+.newsletter-fields input, .signin-dialog input { background: #fffdf8; border-color: var(--line); }
+.newsletter-fields button, .login-button { border-color: var(--ink) !important; }
+.women-mega-menu { border: 1px solid var(--line); }
+@media (prefers-reduced-motion: no-preference) { .product-card { transition: box-shadow .2s ease, transform .2s ease; } .product-card:hover { box-shadow: 0 14px 30px #183b3217; transform: translateY(-2px); } }
+
+
+/* Higher contrast color pass so the new theme reads clearly across the storefront. */
+:root { --ink: #153d32; --cream: #e7eee5; --sand: #d5e2d2; --rust: #b85c3c; --gold: #d1a45a; --surface: #f7f4eb; --surface-muted: #dce8d9; --line: #c3d2c2; }
+html, body { background: #e7eee5 !important; }
+body { background: linear-gradient(180deg, #e7eee5 0, #edf1e8 42%, #e4ebdf 100%) !important; }
+.navbar { background: #f7f4eb !important; box-shadow: 0 5px 18px #153d321a !important; }
+.topbar { background: #153d32 !important; }
+.primary-nav { border-color: #c7d3c7 !important; }
+.shop-section, .search-page, .how-it-works-page, .women-categories { background: #e7eee5 !important; }
+.product-card, .how-it-works-steps article { background: #fbf8f0 !important; border-color: #cfdbcc !important; }
+.values { background: #d4e1d1 !important; }
+.newsletter-section, .how-page-hero { background: #dce8d9 !important; }
+.how-it-works { background: #e7eee5 !important; }
+.section-heading h2, .women-categories h1, .how-it-works-intro h2 { color: #153d32 !important; }
+.primary-nav button.active, .primary-nav button:hover, .women-mega-menu button:hover { color: #b85c3c !important; }
+.primary-button { background: #b85c3c !important; color: #fffaf2 !important; }
+.primary-button:hover { background: #98472f !important; }
+.sell-section { background: #b85c3c !important; }
+.footer-main { background: #153d32 !important; color: #f7f4eb !important; }
+.footer-brand p, .footer-contact a, .footer-follow a { color: #d9e3d8 !important; }
+.footer-bottom { background: #102f28 !important; border-color: #34564b !important; color: #e5ece3 !important; }
+@media (max-width: 700px) { .navbar { background: #f7f4eb !important; } }
