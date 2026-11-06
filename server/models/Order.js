@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+﻿const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
   product: {
@@ -119,11 +119,9 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    status: {
-      type: String,
-      enum: ['Pending', 'Confirmed', 'Processing', 'Delivered', 'Cancelled'],
-      default: 'Confirmed',
-    },
+    trackingReference: { type: String, unique: true, sparse: true, index: true },
+  status: { type: String, enum: ['Placed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Pending', 'Confirmed', 'Processing', 'Cancelled'], default: 'Placed' },
+  statusHistory: [{ status: { type: String, enum: ['Placed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'] }, changedAt: { type: Date, default: Date.now }, changedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } }],
   },
   { timestamps: true }
 );

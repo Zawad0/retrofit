@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const crypto = require("crypto");
+const crypto = require("crypto");
 
 // Create new order
 const createOrder = async (req, res) => {
@@ -53,13 +55,18 @@ const createOrder = async (req, res) => {
     // Generate unique order reference
     const timestampSuffix = String(Date.now()).slice(-6);
     const randomDigits = Math.floor(100 + Math.random() * 900);
-    const orderReference = String(req.body.orderReference || `RF-${timestampSuffix}${randomDigits}`).trim();
+  const orderReference = String(req.body.orderReference || `RF-${timestampSuffix}${randomDigits}`).trim();
+const trackingReference = `RF-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
     if (!/^RF-\d{9}$/.test(orderReference)) return res.status(400).json({ message: "Invalid order reference" });
 
     const order = await Order.create({
       user: req.user ? req.user._id : undefined,
-      orderReference,
-      items: normalizedItems,
+    orderReference,
+    trackingReference,
+    status: "Placed",
+    statusHistory: [{ status: "Placed", changedAt: new Date(), changedBy: req.user?._id }],
+    items: normalizedItems,
+git status --short --branch
       deliveryDetails: {
         fullName: deliveryDetails.fullName,
         mobileNumber: deliveryDetails.mobileNumber,
