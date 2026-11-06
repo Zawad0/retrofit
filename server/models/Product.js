@@ -1,55 +1,6 @@
-const mongoose = require(`mongoose`);
-
-const productSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-
-    description: {
-      type: String,
-      required: true,
-    },
-
-    price: {
-      type: Number,
-      required: true,
-    },
-
-    discount:{
-      type:Number,
-    },
-    
-
-    category: {
-      type: String,
-      enum: [`Men`, `Women`, `Kids`, `Accessories`],
-      required: true,
-    },
-
-    size: {
-      type: String,
-      required: true,
-    },
-
-    brand: {
-      type: String,
-    },
-
-    condition: {
-      type: String,
-      enum: [`New`, `Like New`, `Good`, `Fair`],
-      required: true,
-    },
-
-    imageUrl: {
-      type: String,
-    },
-  },
-
-  { timestamps: true });
-
-  const Product = mongoose.model(`Product`, productSchema);
-
-  module.exports = Product;
+const mongoose = require('mongoose');
+const schema = new mongoose.Schema({
+ seller:{type:mongoose.Schema.Types.ObjectId,ref:'User'}, name:{type:String,required:true,trim:true}, description:{type:String,default:''}, price:{type:Number,required:true}, discount:{type:Number,default:0}, group:{type:String,enum:['Men','Women','Kids','Accessories'],required:true}, category:{type:String,enum:['Men','Women','Kids','Accessories']}, style:{type:String,default:'Western'}, type:{type:String,default:''}, size:{type:String,required:true}, brand:{type:String,default:''}, material:{type:String,default:''}, usedFor:{type:String,default:''}, condition:{type:String,enum:['New','Like New','Good','Fair'],required:true}, image:{type:String,default:''}, imageUrl:{type:String,default:''}, imageFit:{type:String,enum:['cover','contain'],default:'cover'}, status:{type:String,enum:['available','sold'],default:'available'}, moderationStatus:{type:String,enum:['pending','approved','rejected'],default:'approved'}
+},{timestamps:true});
+schema.pre('save',function(){if(!this.category&&this.group)this.category=this.group;if(!this.group&&this.category)this.group=this.category;if(!this.image&&this.imageUrl)this.image=this.imageUrl;if(!this.imageUrl&&this.image)this.imageUrl=this.image;});
+module.exports=mongoose.model('Product',schema);

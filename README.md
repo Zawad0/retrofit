@@ -236,3 +236,12 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ## Why RetroFit Matters
 
 By encouraging the reuse of clothing, RetroFit helps reduce textile waste and extend the life cycle of garments — while helping sellers earn from clothes they no longer wear and helping buyers find quality fashion at affordable prices.
+
+
+## Seller dashboard and signed Cloudinary uploads
+
+Seller registration remains buyer-only until an admin approves the seller request. New signups can check the seller request box, or an existing buyer can choose **Become a seller**. Admins approve requests in **Admin → Users**. A seller then opens **Seller dashboard** to add listings, see moderation status, and view sales linked to orders.
+
+The seller API requires JWT auth and a `seller` or `admin` role. Product edits are limited to the owning seller; edits return the listing to pending review. Public catalog and product detail endpoints return only approved listings.
+
+For image uploads, copy `server/.env.example` to `server/.env` and set the Cloudinary cloud name, API key, API secret, and a signed upload preset. Create that preset in Cloudinary Console with image-only formats and a 5 MB upload limit. The API secret stays on the server; authenticated sellers request a timestamped signature and upload the file directly from the browser to Cloudinary. The resulting `secure_url` is stored on the product.
