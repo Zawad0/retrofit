@@ -8,7 +8,8 @@ const getStats = async (_req, res) => {
       User.countDocuments(),
       Order.countDocuments(),
       Order.aggregate([
-        { $match: { status: { $ne: 'Cancelled' }, paymentStatus: { $ne: 'failed' } } },
+        // Revenue reflects completed payments only; pending cash/bKash orders are not revenue.
+        { $match: { status: { $ne: 'Cancelled' }, paymentStatus: 'paid' } },
         { $group: { _id: null, total: { $sum: '$total' } } },
       ]),
       Product.countDocuments({ moderationStatus: 'pending' }),
@@ -95,7 +96,7 @@ const updateOrder = async (req, res) => {
       await order.save();
       return res.json(await order.populate('user', 'name email'));
     }
-    const allowedStatuses = ['Pending', 'Confirmed', 'Processing', 'Delivered', 'Cancelled'];
+    const allowedStatuses = ['Placed', 'Pending', 'Confirmed', 'Processing', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled'];
     if (!allowedStatuses.includes(req.body.status)) return res.status(400).json({ message: 'Invalid order status' });
     const order = await Order.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true, runValidators: true }).populate('user', 'name email');
     if (!order) return res.status(404).json({ message: 'Order not found' });

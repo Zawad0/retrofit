@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './AdminDashboard.css'
 import { API_BASE as API } from './api.js'
 
-const statuses = ['Pending', 'Confirmed', 'Processing', 'Delivered', 'Cancelled']
+const statuses = ['Placed', 'Pending', 'Confirmed', 'Processing', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled']
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState('Users')
