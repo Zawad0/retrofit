@@ -56,7 +56,6 @@ export default function ChatWidget({ products = [] }) {
   const [messages, setMessages] = useState([initialMessage])
   const [draft, setDraft] = useState('')
   const [sending, setSending] = useState(false)
-  const [unread, setUnread] = useState(false)
   const listRef = useRef(null)
   const inputRef = useRef(null)
   const launcherRef = useRef(null)
@@ -115,8 +114,8 @@ export default function ChatWidget({ products = [] }) {
       </div>
       <form className="chat-compose" onSubmit={submit}><input ref={inputRef} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Ask us anything…" aria-label="Your message" maxLength={500} disabled={sending} /><button className="chat-send" type="submit" disabled={!draft.trim() || sending} aria-label="Send message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3.2-6.8L4 12Z" /><path d="m11.8 13.2 4-4" /></svg></button></form>
     </section>}
-    <button ref={launcherRef} className={`chat-launcher ${open ? 'is-open' : ''}`} type="button" onClick={() => { setOpen((value) => !value); setUnread(false) }} aria-expanded={open} aria-label={open ? 'Close chat' : 'Text with us'}>
-      {open ? <span className="chat-launcher-close" aria-hidden="true">×</span> : <><span className="chat-launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z" /><path d="M8 10h8M8 13h5" /></svg></span><span className="chat-launcher-copy"><strong>Text with us</strong><small>We’re here to help</small></span><span className="chat-launcher-arrow" aria-hidden="true">↗</span>{unread && <i className="chat-unread-dot" />}</>}
+    <button ref={launcherRef} className={`chat-launcher ${open ? 'is-open' : ''}`} type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-label={open ? 'Close chat' : 'Text with us'}>
+      {open ? <span className="chat-launcher-close" aria-hidden="true">×</span> : <><span className="chat-launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3v-14Z" /><path d="M8 10h8M8 13h5" /></svg></span><span className="chat-launcher-copy"><strong>Text with us</strong><small>We’re here to help</small></span><span className="chat-launcher-arrow" aria-hidden="true">↗</span></>}
     </button>
   </div>
 }

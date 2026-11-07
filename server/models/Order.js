@@ -22,6 +22,8 @@ const orderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  originalPrice: { type: Number, default: null },
+  discountPercent: { type: Number, min: 0, max: 80, default: 0 },
   quantity: {
     type: Number,
     required: true,

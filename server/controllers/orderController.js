@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const crypto = require("crypto");
+const { getCurrentPrice, getDiscountPercent } = require("../config/promotions");
 
 // Create new order
 const createOrder = async (req, res) => {
@@ -42,7 +43,8 @@ const createOrder = async (req, res) => {
       }
       const product = await Product.findOne({ _id: productId, status: "available", moderationStatus: "approved" }).lean();
       if (!product) return res.status(409).json({ message: "A cart item is no longer available. Refresh your cart." });
-      normalizedItems.push({ product: product._id, name: product.name, brand: product.brand || "", size: product.size || "", price: product.price, quantity, image: product.image || product.imageUrl || "", group: product.group || "", type: product.type || product.style || "" });
+      const discountPercent = getDiscountPercent(product);
+      normalizedItems.push({ product: product._id, name: product.name, brand: product.brand || "", size: product.size || "", price: getCurrentPrice(product), originalPrice: product.price, discountPercent, quantity, image: product.image || product.imageUrl || "", group: product.group || "", type: product.type || product.style || "" });
     }
 
     const subtotal = normalizedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);

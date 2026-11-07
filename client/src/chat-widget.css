@@ -28,7 +28,8 @@
   box-shadow: 0 5px 0 #071d15, 0 9px 0 #c7623b, 0 17px 35px #102b2152, inset 0 1px 0 #ffffff35;
   color: #fffdf9;
   cursor: pointer;
-  transform: translateY(-8px) rotateX(5deg);
+  translate: 0 -8px;
+  transform: rotateX(5deg);
   transform-style: preserve-3d;
   animation: chat-launcher-float 4.4s ease-in-out infinite;
   transition: box-shadow .28s ease, filter .28s ease, transform .28s cubic-bezier(.2,.8,.2,1), border-radius .28s ease;
@@ -57,11 +58,12 @@
 .chat-launcher:hover {
   filter: saturate(1.12) brightness(1.06);
   box-shadow: 0 7px 0 #071d15, 0 12px 0 #c7623b, 0 24px 42px #102b215c, inset 0 1px 0 #ffffff44;
-  transform: translateY(-13px) rotateX(0deg) rotateY(-3deg);
+  translate: 0 -13px;
+  transform: rotateX(0deg) rotateY(-3deg);
 }
 
 .chat-launcher:hover::before { left: 120%; }
-.chat-launcher:active { box-shadow: 0 2px 0 #071d15, 0 4px 0 #c7623b, 0 9px 17px #102b2145; transform: translateY(-3px) scale(.985); }
+.chat-launcher:active { box-shadow: 0 2px 0 #071d15, 0 4px 0 #c7623b, 0 9px 17px #102b2145; translate: 0 -3px; transform: scale(.985); }
 .chat-launcher:focus-visible, .chat-close:focus-visible, .chat-send:focus-visible, .chat-suggestions button:focus-visible { outline: 3px solid #e6a675; outline-offset: 4px; }
 
 .chat-launcher-icon {
@@ -92,7 +94,6 @@
 .chat-launcher.is-open::after { border-radius: 16px; }
 .chat-launcher-close { position: relative; z-index: 1; display: block; color: white; font: 400 29px/1 Arial,sans-serif; transform: translateZ(10px); transition: transform .24s ease; }
 .chat-launcher.is-open:hover .chat-launcher-close { transform: translateZ(10px) rotate(90deg); }
-.chat-unread-dot { position: absolute; z-index: 2; top: 6px; right: 7px; width: 11px; height: 11px; border: 2px solid #fffdf9; border-radius: 50%; background: #e0784f; box-shadow: 0 0 0 4px #e0784f2b; animation: chat-dot-pulse 1.8s ease-out infinite; }
 
 .chat-panel {
   position: absolute;
@@ -205,11 +206,10 @@
 .chat-send:active:not(:disabled) { box-shadow: 0 1px 0 #0a281d; transform: translateY(1px); }
 .chat-send:disabled { opacity: .48; cursor: default; }
 
-@keyframes chat-launcher-float { 0%,100% { transform: translateY(-8px) rotateX(5deg); } 50% { transform: translateY(-11px) rotateX(3deg); } }
+@keyframes chat-launcher-float { 0%,100% { translate: 0 -8px; } 50% { translate: 0 -11px; } }
 @keyframes chat-panel-arrive { from { opacity: 0; transform: translateY(20px) rotateX(-9deg) rotateY(5deg) scale(.91); filter: blur(4px); } to { opacity: 1; transform: translateY(0) rotateX(0) rotateY(0) scale(1); filter: blur(0); } }
 @keyframes chat-close-pop { from { transform: scale(.82) rotate(-12deg); } to { transform: scale(1) rotate(0); } }
 @keyframes chat-message-arrive { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes chat-dot-pulse { 0% { box-shadow: 0 0 0 0 #e0784f50; } 70%,100% { box-shadow: 0 0 0 7px #e0784f00; } }
 @keyframes chat-online-breathe { 0%,100% { box-shadow: 0 0 0 3px #91c69b2c; } 50% { box-shadow: 0 0 0 5px #91c69b12; } }
 @keyframes chat-typing-hop { 0%,60%,100% { opacity: .5; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
 
