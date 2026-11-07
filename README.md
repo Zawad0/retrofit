@@ -149,7 +149,7 @@ npm install
 `server/.env`:
 
 ```env
-MONGO_URI=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
@@ -162,6 +162,17 @@ PORT=5000
 ```env
 VITE_API_URL=http://localhost:5000
 ```
+
+### AI chat assistant
+
+The “Text with us” chat uses the OpenAI Responses API through the backend, so the API key is never sent to the browser. Add an OpenAI API key to `server/.env` (and to the backend host’s environment variables in production):
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+The assistant can answer general questions and uses the current product catalog and verified RetroFit details for shop-related questions. AI usage is billed by the provider. If no key is configured, the widget can only give its built-in basic answers.
 
 ### 4. Run locally
 

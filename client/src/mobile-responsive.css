@@ -1,0 +1,44 @@
+/* Storefront layout refinements for small touch screens. */
+@media (max-width: 700px) {
+  .navbar { padding: 0 4vw 10px !important; }
+  .nav-top { gap: 5px; grid-template-columns: minmax(0, 1fr) auto; min-height: 62px; }
+  .logo { min-width: 0; }
+  .brand-logo-image { height: auto; max-width: 100%; width: clamp(125px, 39vw, 165px); }
+  .nav-actions { gap: 8px; }
+  .search-button { border: 0; font-size: 0; line-height: 1; padding: 7px; width: auto; }
+  .search-button:first-letter { font-size: 25px; }
+  .cart-nav-button { font-size: 11px; padding: 7px 9px; }
+  .login-button { font-size: 11px; padding: 8px 10px !important; white-space: nowrap; }
+  .primary-nav { gap: 8px !important; margin: 0 -1vw; padding: 9px 1vw 2px; scrollbar-width: none; }
+  .primary-nav::-webkit-scrollbar { display: none; }
+  .primary-nav button,.primary-nav a { font-size: 10px !important; padding: 7px 9px !important; }
+  .hero-section,.hero-image-wrap,.hero-section .hero-image-wrap { min-height: 570px !important; }
+  .hero-copy { height: 570px !important; padding: 220px 7vw 38px !important; }
+  .hero-copy h1 { font-size: clamp(37px, 11vw, 44px) !important; }
+  .hero-note { font-size: 11px; padding: 12px 14px; }
+  .hero-note strong { font-size: 21px; }
+  .shop-section { padding: 52px 5vw; }
+  .section-heading { align-items: flex-start; gap: 12px; }
+  .section-heading h2 { font-size: clamp(31px, 8vw, 38px) !important; }
+  .section-heading > button { font-size: 11px; white-space: nowrap; }
+  .product-grid { gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-image { aspect-ratio: 4 / 5; height: auto; }
+  .product-details { gap: 5px; padding: 11px 1px; }
+  .product-details h3 { font-size: 13px; line-height: 1.3; }
+  .product-details p { font-size: 11px; }
+  .product-details strong { font-size: 12px; }
+  .cart-page,.checkout-page { padding: 38px 5vw 58px; }
+  .cart-layout,.checkout-layout { gap: 22px; }
+  .checkout-form { padding: 23px 18px; }
+  .footer-panel { min-height: 135px; }
+  .newsletter-title h2 { font-size: 23px; }
+}
+
+@media (max-width: 380px) {
+  .nav-actions { gap: 4px; }
+  .cart-nav-button { font-size: 0; padding: 8px; }
+  .cart-nav-button::before { content: 'Cart'; font-size: 11px; }
+  .login-button { font-size: 10px; padding: 7px 8px !important; }
+  .product-grid { gap: 9px; }
+  .hero-copy { padding-left: 6vw !important; padding-right: 6vw !important; }
+}

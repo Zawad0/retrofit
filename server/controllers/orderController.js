@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const crypto = require("crypto");
-const crypto = require("crypto");
 
 // Create new order
 const createOrder = async (req, res) => {
@@ -66,7 +65,6 @@ const trackingReference = `RF-${crypto.randomBytes(3).toString("hex").toUpperCas
     status: "Placed",
     statusHistory: [{ status: "Placed", changedAt: new Date(), changedBy: req.user?._id }],
     items: normalizedItems,
-git status --short --branch
       deliveryDetails: {
         fullName: deliveryDetails.fullName,
         mobileNumber: deliveryDetails.mobileNumber,

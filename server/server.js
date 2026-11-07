@@ -12,6 +12,7 @@ const ecoImpactRoutes = require('./routes/ecoImpactRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const sellerRoutes = require('./routes/sellerRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 const allowedOrigins = (process.env.CLIENT_ORIGINS || 'http://localhost:5173').split(',').map((origin) => origin.trim()).filter(Boolean);
@@ -42,6 +43,7 @@ const offerRoutes = require('./routes/offerRoutes');
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/offers', offerRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/chat', chatRoutes);
 app.get('/', (_req, res) => res.send('RetroFit API running.'));
 app.use((err, _req, res, _next) => {
   if (err.message === 'Origin is not allowed by CORS') return res.status(403).json({ message: err.message });
